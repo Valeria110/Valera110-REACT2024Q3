@@ -1,31 +1,47 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import viteLogo from '../public/vite.svg';
-import './App.css';
+import { Component, ReactNode } from 'react';
+import './App.scss';
+import { ErrorBoundary } from './utils/utils.tsx';
+import Header from './components/Header/Header.tsx';
+import { IProps, ResType } from './types/types.ts';
+import { fetchPeople, FetchPeopleReturnType } from './services/services.ts';
 
-function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>count is {count}</button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
-    </>
-  );
+interface AppState {
+  people: ResType[];
 }
 
+class App extends Component<IProps, AppState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      people: [],
+    };
+  }
+
+  componentDidMount(): void {
+    fetchPeople().then((data: FetchPeopleReturnType) => {
+      if (Array.isArray(data)) {
+        this.setState({ people: data });
+        console.log(data);
+      }
+    });
+  }
+
+  render(): ReactNode {
+    const { people } = this.state;
+
+    return (
+      <>
+        <ErrorBoundary>
+          <Header prevSearchTerm=""></Header>
+          <h1>Hello!</h1>
+          <ul>
+            {people.map((char) => (
+              <li key={char.url}>{char.name}</li>
+            ))}
+          </ul>
+        </ErrorBoundary>
+      </>
+    );
+  }
+}
 export default App;

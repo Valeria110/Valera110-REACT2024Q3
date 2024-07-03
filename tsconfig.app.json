@@ -26,10 +26,10 @@
     "noImplicitAny": true,
 
     /* Path aliases */
-    "baseUrl": "",
-    "paths": {
-      "@/*": ["./src/*"]
-    }
+    "baseUrl": ""
+    // "paths": {
+    //   "@/*": ["./src/*"]
+    // }
   },
   "include": ["src"]
 }
