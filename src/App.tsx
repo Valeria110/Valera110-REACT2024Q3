@@ -4,6 +4,7 @@ import { ErrorBoundary } from './utils/utils.tsx';
 import Header from './components/Header/Header.tsx';
 import { IProps, ResType } from './types/types.ts';
 import { fetchPeople, FetchPeopleReturnType } from './services/services.ts';
+import Card from './components/Card/Card.tsx';
 
 interface AppState {
   people: ResType[];
@@ -32,13 +33,12 @@ class App extends Component<IProps, AppState> {
     return (
       <>
         <ErrorBoundary>
-          <Header prevSearchTerm=""></Header>
-          <h1>Hello!</h1>
-          <ul>
+          <Header></Header>
+          <main className="main">
             {people.map((char) => (
-              <li key={char.url}>{char.name}</li>
+              <Card key={char.url} char={char}></Card>
             ))}
-          </ul>
+          </main>
         </ErrorBoundary>
       </>
     );

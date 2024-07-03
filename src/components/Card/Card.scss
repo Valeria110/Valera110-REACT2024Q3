@@ -1,0 +1,15 @@
+.main__card-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 200px;
+  width: auto;
+  background-color: #fff;
+
+  .main__card-list-item {
+    list-style: none;
+  }
+}

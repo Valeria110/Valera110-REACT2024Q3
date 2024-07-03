@@ -5,11 +5,7 @@ import { ErrorBoundary } from '../../utils/utils.tsx';
 import ErrorButton from '../ErrorButton/ErrorButton.tsx';
 import Form from '../Form/Form.tsx';
 
-interface IHeaderProps {
-  prevSearchTerm: string;
-}
-
-class Header extends Component<IHeaderProps> {
+class Header extends Component {
   render(): ReactNode {
     return (
       <>
