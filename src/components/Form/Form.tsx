@@ -1,17 +1,22 @@
 import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
 import './Form.scss';
-import { IProps } from '../../types/types.ts';
+import { IProps, ResType } from '../../types/types.ts';
+import { searchPeopleByName } from '../../services/services.ts';
 
 interface FormState {
   value: string;
 }
 
-class Form extends Component<IProps, FormState> {
-  constructor(props: IProps) {
+interface FormProps extends IProps {
+  onSearch: (data: ResType[]) => void;
+}
+
+class Form extends Component<FormProps, FormState> {
+  constructor(props: FormProps) {
     super(props);
-    const prevSearchTerm = localStorage.getItem('prevSearchTerm');
+    const prevSearchTerm = localStorage.getItem('prevSearchTerm') ?? '';
     this.state = {
-      value: prevSearchTerm ? prevSearchTerm : '',
+      value: prevSearchTerm,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -20,6 +25,17 @@ class Form extends Component<IProps, FormState> {
   onSubmit(e: FormEvent) {
     e.preventDefault();
     localStorage.setItem('prevSearchTerm', this.state.value);
+    searchPeopleByName(this.state.value)
+      .then((data) => {
+        if (data) {
+          this.props.onSearch(data);
+        }
+      })
+      .catch((err: unknown) => {
+        if (typeof err === 'string') {
+          console.error(`Error while searching: ${err}`);
+        }
+      });
   }
 
   onChange(e: ChangeEvent<HTMLInputElement>) {

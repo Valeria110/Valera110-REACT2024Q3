@@ -8,6 +8,14 @@
   min-width: 200px;
   width: auto;
   background-color: #fff;
+  transition: all 0.4s;
+  outline-offset: 2px;
+  outline: 1px solid yellow;
+
+  &:hover {
+    transform: scale(1.03);
+    background-color: rgba(255, 255, 255, 0.8);
+  }
 
   .main__card-list-item {
     list-style: none;

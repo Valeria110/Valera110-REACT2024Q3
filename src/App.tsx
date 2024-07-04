@@ -16,15 +16,19 @@ class App extends Component<IProps, AppState> {
     this.state = {
       people: [],
     };
+    this.onSearch = this.onSearch.bind(this);
   }
 
   componentDidMount(): void {
     fetchPeople().then((data: FetchPeopleReturnType) => {
       if (Array.isArray(data)) {
         this.setState({ people: data });
-        console.log(data);
       }
     });
+  }
+
+  onSearch(data: ResType[]) {
+    this.setState({ people: data });
   }
 
   render(): ReactNode {
@@ -33,7 +37,7 @@ class App extends Component<IProps, AppState> {
     return (
       <>
         <ErrorBoundary>
-          <Header></Header>
+          <Header onSearch={this.onSearch}></Header>
           <main className="main">
             {people.map((char) => (
               <Card key={char.url} char={char}></Card>
