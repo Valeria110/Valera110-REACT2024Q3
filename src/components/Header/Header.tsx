@@ -6,7 +6,7 @@ import Form from '../Form/Form.tsx';
 import { ResType } from '../../types/types.ts';
 
 interface HeaderProps {
-  onSearch: (data: ResType[]) => void;
+  onSearch: (data: ResType[] | undefined) => void;
 }
 
 class Header extends Component<HeaderProps> {

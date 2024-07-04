@@ -27,8 +27,12 @@ class App extends Component<IProps, AppState> {
     });
   }
 
-  onSearch(data: ResType[]) {
-    this.setState({ people: data });
+  onSearch(data: ResType[] | undefined) {
+    if (data) {
+      this.setState({ people: data });
+    } else {
+      this.setState({ people: [] });
+    }
   }
 
   render(): ReactNode {
@@ -39,9 +43,11 @@ class App extends Component<IProps, AppState> {
         <ErrorBoundary>
           <Header onSearch={this.onSearch}></Header>
           <main className="main">
-            {people.map((char) => (
-              <Card key={char.url} char={char}></Card>
-            ))}
+            {people.length ? (
+              people.map((char) => <Card key={char.url} char={char}></Card>)
+            ) : (
+              <h3 className="main__not-found-text">No people found</h3>
+            )}
           </main>
         </ErrorBoundary>
       </>

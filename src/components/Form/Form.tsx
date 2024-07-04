@@ -8,7 +8,7 @@ interface FormState {
 }
 
 interface FormProps extends IProps {
-  onSearch: (data: ResType[]) => void;
+  onSearch: (data: ResType[] | undefined) => void;
 }
 
 class Form extends Component<FormProps, FormState> {
@@ -27,9 +27,7 @@ class Form extends Component<FormProps, FormState> {
     localStorage.setItem('prevSearchTerm', this.state.value);
     searchPeopleByName(this.state.value)
       .then((data) => {
-        if (data) {
-          this.props.onSearch(data);
-        }
+        this.props.onSearch(data);
       })
       .catch((err: unknown) => {
         if (typeof err === 'string') {
@@ -39,7 +37,7 @@ class Form extends Component<FormProps, FormState> {
   }
 
   onChange(e: ChangeEvent<HTMLInputElement>) {
-    this.setState({ value: e.target.value });
+    this.setState({ value: e.target.value.trim() });
   }
 
   render(): ReactNode {

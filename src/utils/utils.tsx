@@ -9,6 +9,7 @@ class ErrorBoundary extends Component<IProps, IErrorBoundaryState> {
     this.state = {
       hasError: false,
     };
+    this.closeError = this.closeError.bind(this);
   }
 
   static getDerivedStateFromError(): IErrorBoundaryState {
@@ -19,9 +20,20 @@ class ErrorBoundary extends Component<IProps, IErrorBoundaryState> {
     console.error('Oops... React caught an error');
   }
 
+  closeError() {
+    this.setState({ hasError: false });
+  }
+
   render(): ReactNode {
     if (this.state.hasError) {
-      return <h1>Something went wrong</h1>;
+      return (
+        <div className="error-block">
+          <h1 className="error-block__header">Something went wrong :(</h1>
+          <button className="error-block__try-again-btn" onClick={this.closeError}>
+            Try again
+          </button>
+        </div>
+      );
     } else {
       return this.props.children;
     }
