@@ -1,0 +1,23 @@
+.loader-mask {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+
+  .loader {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    border: 8px solid #ffb74d;
+    border-left: 8px solid #ef6c00;
+    animation: rotateLoader 1.2s linear infinite;
+  }
+}
+
+@keyframes rotateLoader {
+  100% {
+    transform: rotate(360deg);
+  }
+}

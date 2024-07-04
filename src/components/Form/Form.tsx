@@ -1,14 +1,13 @@
 import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
 import './Form.scss';
-import { IProps, ResType } from '../../types/types.ts';
-import { searchPeopleByName } from '../../services/services.ts';
+import { IProps } from '../../types/types.ts';
 
 interface FormState {
   value: string;
 }
 
 interface FormProps extends IProps {
-  onSearch: (data: ResType[] | undefined) => void;
+  onSearch: (searchTerm: string) => void;
 }
 
 class Form extends Component<FormProps, FormState> {
@@ -25,15 +24,7 @@ class Form extends Component<FormProps, FormState> {
   onSubmit(e: FormEvent) {
     e.preventDefault();
     localStorage.setItem('prevSearchTerm', this.state.value);
-    searchPeopleByName(this.state.value)
-      .then((data) => {
-        this.props.onSearch(data);
-      })
-      .catch((err: unknown) => {
-        if (typeof err === 'string') {
-          console.error(`Error while searching: ${err}`);
-        }
-      });
+    this.props.onSearch(this.state.value);
   }
 
   onChange(e: ChangeEvent<HTMLInputElement>) {

@@ -3,10 +3,9 @@ import './Header.scss';
 import SWLogo from '../../assets/star-wars-logo.png';
 import ErrorButton from '../ErrorButton/ErrorButton.tsx';
 import Form from '../Form/Form.tsx';
-import { ResType } from '../../types/types.ts';
 
 interface HeaderProps {
-  onSearch: (data: ResType[] | undefined) => void;
+  onSearch: (searchTerm: string) => void;
 }
 
 class Header extends Component<HeaderProps> {

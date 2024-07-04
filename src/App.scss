@@ -11,9 +11,11 @@ $red-color: #f44336;
 }
 
 .main {
+  position: relative;
   display: flex;
   gap: 20px;
   flex-wrap: wrap;
+  min-height: calc(100vh - 91px - 64px - 20px); /* 100px - высота header; 64px - paddings; 20px - gap */
 
   &__not-found-text {
     background-color: #fff;
