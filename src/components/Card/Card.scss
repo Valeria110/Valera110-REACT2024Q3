@@ -1,0 +1,24 @@
+.main__card-list {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  min-width: 200px;
+  width: auto;
+  height: fit-content;
+  background-color: #fff;
+  transition: all 0.4s;
+  outline-offset: 2px;
+  outline: 1px solid yellow;
+
+  &:hover {
+    transform: scale(1.03);
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+
+  .main__card-list-item {
+    list-style: none;
+  }
+}

@@ -1,0 +1,21 @@
+.header {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+
+  .header__swapi-logo {
+    width: 150px;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  .header__test-btn {
+    margin-left: 5%;
+  }
+
+  .header__form {
+    margin-left: auto;
+  }
+}
