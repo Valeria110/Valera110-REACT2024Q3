@@ -24,5 +24,6 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': ['warn', { allowConstantExport: true }],
     'react-compiler/react-compiler': 'error',
+    '@typescript-eslint/no-explicit-any': 'error',
   },
 };
