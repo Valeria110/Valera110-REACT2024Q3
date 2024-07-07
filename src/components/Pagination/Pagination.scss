@@ -1,0 +1,17 @@
+.Pagination-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: 180px;
+  margin: 0 auto;
+
+  &__btn {
+    &:focus {
+      outline: none;
+    }
+
+    &:disabled {
+      pointer-events: none;
+    }
+  }
+}

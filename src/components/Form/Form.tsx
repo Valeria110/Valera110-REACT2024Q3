@@ -5,14 +5,16 @@ import { IProps } from '../../types/types.ts';
 interface FormProps extends IProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   prevSearchTerm: string;
+  setPageNum: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function Form({ setSearchTerm, prevSearchTerm }: FormProps) {
+function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
   const [searchQuery, setSearchQuery] = useState(() => prevSearchTerm ?? '');
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSearchTerm(searchQuery);
+    setPageNum(1);
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { IErrorBoundaryState, IProps } from '../types/types.ts';
+import { IErrorBoundaryState, IProps } from '../../types/types.ts';
 
 class ErrorBoundary extends Component<IProps, IErrorBoundaryState> {
   state: Readonly<IErrorBoundaryState>;
@@ -40,4 +40,4 @@ class ErrorBoundary extends Component<IProps, IErrorBoundaryState> {
   }
 }
 
-export { ErrorBoundary };
+export default ErrorBoundary;

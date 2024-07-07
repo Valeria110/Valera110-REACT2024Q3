@@ -1,11 +1,13 @@
 import { ReactNode, useEffect, useState } from 'react';
 import './App.scss';
-import { ErrorBoundary } from './utils/utils.tsx';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
 import Header from './components/Header/Header.tsx';
 import { ResType } from './types/types.ts';
 import { searchPeopleByName } from './services/services.ts';
 import Card from './components/Card/Card.tsx';
 import Loader from './components/Loader/Loader.tsx';
+import Pagination from './components/Pagination/Pagination.tsx';
+import { calcPagesCount } from './utils/utils.ts';
 
 interface AppState {
   people: ResType[] | null;
@@ -29,14 +31,18 @@ const useLocalStorage = (initialValue: string): [string, React.Dispatch<React.Se
 function App(): ReactNode {
   const [people, setPeople] = useState<AppState['people']>(null);
   const [searchTerm, setSearchTerm] = useLocalStorage('');
+  const [pagesCount, setPagesCount] = useState(1);
+  const [pageNum, setPageNum] = useState(1);
 
   useEffect(() => {
     setPeople(null);
 
-    searchPeopleByName(searchTerm)
+    searchPeopleByName(searchTerm, pageNum)
       .then((data) => {
-        if (data) {
-          setPeople(data);
+        if (data && data.people) {
+          setPeople(data.people);
+          const pages = calcPagesCount(data.peopleCount);
+          setPagesCount(pages);
         } else {
           setPeople([]);
         }
@@ -46,12 +52,12 @@ function App(): ReactNode {
           console.error(`Error while searching: ${err}`);
         }
       });
-  }, [searchTerm]);
+  }, [searchTerm, pageNum]);
 
   return (
     <>
       <ErrorBoundary>
-        <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm}></Header>
+        <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm} setPageNum={setPageNum}></Header>
         <main className="main">
           {people ? (
             people.length ? (
@@ -63,6 +69,7 @@ function App(): ReactNode {
             <Loader></Loader>
           )}
         </main>
+        {people ? <Pagination pagesCount={pagesCount} setPageNum={setPageNum} pageNum={pageNum} /> : null}
       </ErrorBoundary>
     </>
   );

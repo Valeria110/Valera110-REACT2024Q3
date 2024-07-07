@@ -8,12 +8,13 @@ interface IButtonProps {
   onClick: () => void;
   onSubmit?: (e: Event) => void;
   className: string;
-  type: ButtonTypes;
+  type?: ButtonTypes;
+  disabled: boolean;
 }
 
-function Button({ children, onClick, className, type }: IButtonProps): ReactNode {
+function Button({ children, onClick, className, type = 'button', disabled }: IButtonProps): ReactNode {
   return (
-    <button className={className} type={type} onClick={onClick}>
+    <button className={className} type={type} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );
