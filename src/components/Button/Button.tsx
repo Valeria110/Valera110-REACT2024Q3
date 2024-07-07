@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import './Button.scss';
 
 type ButtonTypes = 'submit' | 'reset' | 'button';
@@ -11,22 +11,12 @@ interface IButtonProps {
   type: ButtonTypes;
 }
 
-class Button extends Component<IButtonProps> {
-  onClick: () => void;
-
-  constructor(props: IButtonProps) {
-    super(props);
-    this.onClick = this.props.onClick.bind(this);
-  }
-  render(): ReactNode {
-    const { className, type, onClick } = this.props;
-
-    return (
-      <button className={className} type={type} onClick={onClick}>
-        {this.props.children}
-      </button>
-    );
-  }
+function Button({ children, onClick, className, type }: IButtonProps): ReactNode {
+  return (
+    <button className={className} type={type} onClick={onClick}>
+      {children}
+    </button>
+  );
 }
 
 export default Button;
