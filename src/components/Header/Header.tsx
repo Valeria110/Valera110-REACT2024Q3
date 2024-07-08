@@ -13,9 +13,9 @@ interface HeaderProps {
 function Header({ setSearchTerm, prevSearchTerm, setPageNum }: HeaderProps): ReactNode {
   return (
     <>
-      <header className="header">
-        <img src={SWLogo} alt="star wars logo" className="header__swapi-logo" />
-        <ErrorButton className="header__test-btn">Test button</ErrorButton>
+      <header className="Header">
+        <img src={SWLogo} alt="star wars logo" className="Header__swapi-logo" />
+        <ErrorButton className="Header__test-btn">Test button</ErrorButton>
         <Form setSearchTerm={setSearchTerm} prevSearchTerm={prevSearchTerm} setPageNum={setPageNum}></Form>
       </header>
     </>

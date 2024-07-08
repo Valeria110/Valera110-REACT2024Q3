@@ -23,15 +23,15 @@ function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
 
   return (
     <>
-      <form action="GET" className="header__form" onSubmit={onSubmit}>
+      <form action="GET" className="Header__form" onSubmit={onSubmit}>
         <input
-          className="header__search-input"
+          className="Header__search-input"
           placeholder="Search by name..."
           value={searchQuery}
           type="search"
           onChange={onChange}
         />
-        <button className="header__form-submit-btn" type="submit">
+        <button className="Header__form-submit-btn" type="submit">
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>

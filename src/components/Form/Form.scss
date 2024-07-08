@@ -1,8 +1,8 @@
-.header__form {
+.Header__form {
   display: flex;
   gap: 10px;
 
-  .header__search-input {
+  .Header__search-input {
     padding: 10px;
     align-content: center;
     background-color: transparent;
@@ -20,7 +20,7 @@
     }
   }
 
-  .header__form-submit-btn {
+  &-submit-btn {
     background-color: transparent;
     border-radius: 50%;
     width: 50px;

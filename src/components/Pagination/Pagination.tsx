@@ -1,5 +1,5 @@
 import './Pagination.scss';
-import { ReactNode } from 'react';
+import { ReactNode, useState } from 'react';
 import Button from '../Button/Button.tsx';
 
 interface PaginationProps {
@@ -9,12 +9,29 @@ interface PaginationProps {
 }
 
 function Pagination({ pagesCount, setPageNum, pageNum }: PaginationProps): ReactNode {
+  const [inputValue, setInputValue] = useState(pageNum);
   const prevPage = () => {
     setPageNum((p) => p - 1);
   };
 
   const nextPage = () => {
     setPageNum((p) => p + 1);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = Number(e.target.value);
+    if (!Number.isNaN(value)) {
+      setInputValue(Number(e.target.value));
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      const value = Number((e.target as HTMLInputElement).value);
+      if (!Number.isNaN(value)) {
+        setPageNum(value);
+      }
+    }
   };
 
   return (
@@ -26,6 +43,13 @@ function Pagination({ pagesCount, setPageNum, pageNum }: PaginationProps): React
       >
         Prev
       </Button>
+      <input
+        className="Pagination-wrapper__input"
+        type="text"
+        value={inputValue}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+      />
       <Button
         disabled={pageNum === pagesCount}
         className="Pagination-wrapper__btn Pagination-wrapper__btn-next"

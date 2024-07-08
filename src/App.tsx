@@ -58,12 +58,12 @@ function App(): ReactNode {
     <>
       <ErrorBoundary>
         <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm} setPageNum={setPageNum}></Header>
-        <main className="main">
+        <main className="Main">
           {people ? (
             people.length ? (
               people.map((char) => <Card key={char.url} char={char}></Card>)
             ) : (
-              <h3 className="main__not-found-text">No people found</h3>
+              <h3 className="Main__not-found-text">No people found</h3>
             )
           ) : (
             <Loader></Loader>
