@@ -29,6 +29,7 @@ function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
           placeholder="Search by name..."
           value={searchQuery}
           type="search"
+          name="search"
           onChange={onChange}
         />
         <button className="Header__form-submit-btn" type="submit">

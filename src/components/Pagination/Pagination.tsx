@@ -47,6 +47,7 @@ function Pagination({ pagesCount, setPageNum, pageNum }: PaginationProps): React
         className="Pagination-wrapper__input"
         type="text"
         value={inputValue}
+        name="page"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
       />

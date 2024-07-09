@@ -4,7 +4,7 @@ const BASE_URL = 'https://swapi.dev/api/';
 
 export const searchPeopleByName = async (
   query: string | React.Dispatch<React.SetStateAction<string>> = '',
-  page: number,
+  page: number = 1,
 ) => {
   try {
     const res = await fetch(`${BASE_URL}/people/?search=${query}&page=${page}`);

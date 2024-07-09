@@ -8,6 +8,7 @@ import Card from './components/Card/Card.tsx';
 import Loader from './components/Loader/Loader.tsx';
 import Pagination from './components/Pagination/Pagination.tsx';
 import { calcPagesCount } from './utils/utils.ts';
+import { useSearchParams } from 'react-router-dom';
 
 interface AppState {
   people: ResType[] | null;
@@ -34,6 +35,9 @@ function App(): ReactNode {
   const [pagesCount, setPagesCount] = useState(1);
   const [pageNum, setPageNum] = useState(1);
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  console.log(searchParams);
+
   useEffect(() => {
     setPeople(null);
 
@@ -43,6 +47,7 @@ function App(): ReactNode {
           setPeople(data.people);
           const pages = calcPagesCount(data.peopleCount);
           setPagesCount(pages);
+          setSearchParams({ page: `${pageNum}` });
         } else {
           setPeople([]);
         }
@@ -52,6 +57,8 @@ function App(): ReactNode {
           console.error(`Error while searching: ${err}`);
         }
       });
+    // eslint-disable-next-line react-compiler/react-compiler
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, pageNum]);
 
   return (
