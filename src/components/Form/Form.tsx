@@ -1,6 +1,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 import './Form.scss';
 import { IProps } from '../../types/types.ts';
+import { useNavigate } from 'react-router-dom';
 
 interface FormProps extends IProps {
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
@@ -10,11 +11,13 @@ interface FormProps extends IProps {
 
 function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
   const [searchQuery, setSearchQuery] = useState(() => prevSearchTerm ?? '');
+  const navigate = useNavigate();
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     setSearchTerm(searchQuery);
     setPageNum(1);
+    navigate('/');
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {

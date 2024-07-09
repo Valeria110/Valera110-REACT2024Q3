@@ -1,6 +1,7 @@
 import './Pagination.scss';
 import { ReactNode, useState } from 'react';
 import Button from '../Button/Button.tsx';
+import { useNavigate } from 'react-router-dom';
 
 interface PaginationProps {
   pagesCount: number;
@@ -10,12 +11,15 @@ interface PaginationProps {
 
 function Pagination({ pagesCount, setPageNum, pageNum }: PaginationProps): ReactNode {
   const [inputValue, setInputValue] = useState(pageNum);
+  const navigate = useNavigate();
   const prevPage = () => {
     setPageNum((p) => p - 1);
+    navigate('/');
   };
 
   const nextPage = () => {
     setPageNum((p) => p + 1);
+    navigate('/');
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,6 +34,7 @@ function Pagination({ pagesCount, setPageNum, pageNum }: PaginationProps): React
       const value = Number((e.target as HTMLInputElement).value);
       if (!Number.isNaN(value)) {
         setPageNum(value);
+        navigate('/');
       }
     }
   };

@@ -1,14 +1,13 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 import './App.scss';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
 import Header from './components/Header/Header.tsx';
 import { ResType } from './types/types.ts';
 import { searchPeopleByName } from './services/services.ts';
-import Card from './components/Card/Card.tsx';
-import Loader from './components/Loader/Loader.tsx';
 import Pagination from './components/Pagination/Pagination.tsx';
 import { calcPagesCount } from './utils/utils.ts';
-import { useSearchParams } from 'react-router-dom';
+import { Outlet, useSearchParams } from 'react-router-dom';
+import CardsBlock from './components/CardsBlock/CardsBlock.tsx';
 
 interface AppState {
   people: ResType[] | null;
@@ -29,14 +28,15 @@ const useLocalStorage = (initialValue: string): [string, React.Dispatch<React.Se
   return [searchTerm, setSearchTerm];
 };
 
+export const PeopleContext = createContext<{ people: ResType[] | null }>({ people: null });
+
 function App(): ReactNode {
   const [people, setPeople] = useState<AppState['people']>(null);
   const [searchTerm, setSearchTerm] = useLocalStorage('');
   const [pagesCount, setPagesCount] = useState(1);
   const [pageNum, setPageNum] = useState(1);
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams);
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     setPeople(null);
@@ -64,19 +64,16 @@ function App(): ReactNode {
   return (
     <>
       <ErrorBoundary>
-        <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm} setPageNum={setPageNum}></Header>
-        <main className="Main">
-          {people ? (
-            people.length ? (
-              people.map((char) => <Card key={char.url} char={char}></Card>)
-            ) : (
-              <h3 className="Main__not-found-text">No people found</h3>
-            )
-          ) : (
-            <Loader></Loader>
-          )}
-        </main>
-        {people ? <Pagination pagesCount={pagesCount} setPageNum={setPageNum} pageNum={pageNum} /> : null}
+        <PeopleContext.Provider value={{ people }}>
+          <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm} setPageNum={setPageNum}></Header>
+          <main className="Main">
+            <CardsBlock people={people} />
+            <div className="details">
+              <Outlet />
+            </div>
+          </main>
+          {people ? <Pagination pagesCount={pagesCount} setPageNum={setPageNum} pageNum={pageNum} /> : null}
+        </PeopleContext.Provider>
       </ErrorBoundary>
     </>
   );
