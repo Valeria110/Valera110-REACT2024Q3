@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom';
 
 interface CardProps extends IProps {
   char: ResType;
+  pageNum: number;
 }
 
-function Card({ char }: CardProps): ReactNode {
+function Card({ char, pageNum }: CardProps): ReactNode {
   const { name, birthYear } = char;
 
   return (
@@ -19,7 +20,7 @@ function Card({ char }: CardProps): ReactNode {
         <b>Birth year:</b> {birthYear ? birthYear : 'unknown'}
       </li>
 
-      <Link to={`details/${char.name}`}>View details</Link>
+      <Link to={`details/${char.name}?page=${pageNum}`}>View details</Link>
     </ul>
   );
 }

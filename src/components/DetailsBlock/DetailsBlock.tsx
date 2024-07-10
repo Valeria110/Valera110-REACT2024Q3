@@ -1,7 +1,6 @@
 import './DetailsBlock.scss';
-import { ReactNode, useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { PeopleContext } from '../../App.tsx';
+import { ReactNode, useEffect, useState } from 'react';
+import { useOutletContext, useParams } from 'react-router-dom';
 import Loader from '../Loader/Loader.tsx';
 import { ResType } from '../../types/types.ts';
 
@@ -10,9 +9,9 @@ interface CharDataState {
 }
 
 function DetailsBlock(): ReactNode {
+  const people = useOutletContext() as ResType[] | null;
   const [charData, setCharData] = useState<CharDataState['people']>(null);
   const { charId } = useParams();
-  const { people } = useContext(PeopleContext);
 
   useEffect(() => {
     setCharData(null);

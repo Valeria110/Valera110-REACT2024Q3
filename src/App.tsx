@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import './App.scss';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
 import Header from './components/Header/Header.tsx';
@@ -27,8 +27,6 @@ const useLocalStorage = (initialValue: string): [string, React.Dispatch<React.Se
 
   return [searchTerm, setSearchTerm];
 };
-
-export const PeopleContext = createContext<{ people: ResType[] | null }>({ people: null });
 
 function App(): ReactNode {
   const [people, setPeople] = useState<AppState['people']>(null);
@@ -64,16 +62,14 @@ function App(): ReactNode {
   return (
     <>
       <ErrorBoundary>
-        <PeopleContext.Provider value={{ people }}>
-          <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm} setPageNum={setPageNum}></Header>
-          <main className="Main">
-            <CardsBlock people={people} />
-            <div className="details">
-              <Outlet />
-            </div>
-          </main>
-          {people ? <Pagination pagesCount={pagesCount} setPageNum={setPageNum} pageNum={pageNum} /> : null}
-        </PeopleContext.Provider>
+        <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm} setPageNum={setPageNum}></Header>
+        <main className="Main">
+          <CardsBlock pageNum={pageNum} people={people} />
+          <div className="details">
+            <Outlet context={people} />
+          </div>
+        </main>
+        {people ? <Pagination pagesCount={pagesCount} setPageNum={setPageNum} pageNum={pageNum} /> : null}
       </ErrorBoundary>
     </>
   );
