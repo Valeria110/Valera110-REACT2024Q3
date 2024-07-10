@@ -11,4 +11,22 @@
     letter-spacing: 2px;
     border-bottom: 1px solid #000;
   }
+
+  &__close-btn {
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    background-color: transparent;
+    border: 1px dotted transparent;
+
+    &:hover {
+      border: 1px dashed #000;
+      color: #fff;
+      outline: none;
+    }
+  }
 }
