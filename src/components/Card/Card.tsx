@@ -12,7 +12,7 @@ function Card({ char, pageNum }: CardProps): ReactNode {
   const { name, birthYear } = char;
 
   return (
-    <ul className="main__card-list">
+    <ul className="main__card-list" data-testid="card">
       <li className="main__card-list-item card__name">
         <b>Name:</b> {name}
       </li>

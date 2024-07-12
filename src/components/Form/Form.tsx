@@ -35,7 +35,7 @@ function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
           name="search"
           onChange={onChange}
         />
-        <button className="Header__form-submit-btn" type="submit">
+        <button className="Header__form-submit-btn" type="submit" aria-label="submit">
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>

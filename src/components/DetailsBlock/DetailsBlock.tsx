@@ -41,7 +41,7 @@ function DetailsBlock(): ReactNode {
   }, [charId, people]);
 
   return charData ? (
-    <ul ref={detailsBlockRef} className="main__card-list">
+    <ul ref={detailsBlockRef} className="main__card-list" data-testid="details-block">
       <Button className="DetailsBlock__close-btn" disabled={false} onClick={() => navigate('/')}>
         <i className="fa-solid fa-xmark" style={{ color: '#000' }}></i>
       </Button>
