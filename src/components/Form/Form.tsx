@@ -15,13 +15,13 @@ function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setSearchTerm(searchQuery);
+    setSearchTerm(searchQuery.trim());
     setPageNum(1);
     navigate('/');
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(e.target.value.trim());
+    setSearchQuery(e.target.value);
   };
 
   return (
