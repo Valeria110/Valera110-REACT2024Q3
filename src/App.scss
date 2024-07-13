@@ -10,12 +10,11 @@ $red-color: #f44336;
   text-align: center;
 }
 
-.main {
+.Main {
   position: relative;
   display: flex;
+  justify-content: space-between;
   gap: 20px;
-  flex-wrap: wrap;
-  min-height: calc(100vh - 91px - 64px - 20px); /* 100px - высота header; 64px - paddings; 20px - gap */
 
   &__not-found-text {
     background-color: #fff;
@@ -27,6 +26,19 @@ $red-color: #f44336;
     margin-top: 100px;
     outline: 1px solid $red-color;
     outline-offset: 3px;
+  }
+
+  &__left-section {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    min-height: calc(100vh - 91px - 64px - 20px); /* 100px - высота header; 64px - paddings; 20px - gap */
+    width: 50%;
+    margin-right: auto;
+  }
+
+  .details {
+    width: 50%;
   }
 }
 

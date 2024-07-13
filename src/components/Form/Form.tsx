@@ -1,54 +1,46 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 import './Form.scss';
 import { IProps } from '../../types/types.ts';
-
-interface FormState {
-  value: string;
-}
+import { useNavigate } from 'react-router-dom';
 
 interface FormProps extends IProps {
-  onSearch: (searchTerm: string) => void;
+  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
+  prevSearchTerm: string;
+  setPageNum: React.Dispatch<React.SetStateAction<number>>;
 }
 
-class Form extends Component<FormProps, FormState> {
-  constructor(props: FormProps) {
-    super(props);
-    const prevSearchTerm = localStorage.getItem('prevSearchTerm') ?? '';
-    this.state = {
-      value: prevSearchTerm,
-    };
-    this.onSubmit = this.onSubmit.bind(this);
-    this.onChange = this.onChange.bind(this);
-  }
+function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
+  const [searchQuery, setSearchQuery] = useState(() => prevSearchTerm ?? '');
+  const navigate = useNavigate();
 
-  onSubmit(e: FormEvent) {
+  const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    localStorage.setItem('prevSearchTerm', this.state.value);
-    this.props.onSearch(this.state.value);
-  }
+    setSearchTerm(searchQuery.trim());
+    setPageNum(1);
+    navigate('/');
+  };
 
-  onChange(e: ChangeEvent<HTMLInputElement>) {
-    this.setState({ value: e.target.value.trim() });
-  }
+  const onChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
-  render(): ReactNode {
-    return (
-      <>
-        <form action="GET" className="header__form" onSubmit={this.onSubmit}>
-          <input
-            className="header__search-input"
-            placeholder="Search by name..."
-            value={this.state.value}
-            type="search"
-            onChange={this.onChange}
-          />
-          <button className="header__form-submit-btn" type="submit">
-            <i className="fa-solid fa-magnifying-glass"></i>
-          </button>
-        </form>
-      </>
-    );
-  }
+  return (
+    <>
+      <form action="GET" className="Header__form" onSubmit={onSubmit}>
+        <input
+          className="Header__search-input"
+          placeholder="Search by name..."
+          value={searchQuery}
+          type="search"
+          name="search"
+          onChange={onChange}
+        />
+        <button className="Header__form-submit-btn" type="submit" aria-label="submit">
+          <i className="fa-solid fa-magnifying-glass"></i>
+        </button>
+      </form>
+    </>
+  );
 }
 
 export default Form;

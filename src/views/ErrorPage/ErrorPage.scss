@@ -1,0 +1,40 @@
+.Error {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin: 0 auto;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: aliceblue;
+  color: #000;
+
+  &__error-msg {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  &__error-status {
+    font-size: 2rem;
+    color: red;
+  }
+
+  &__error-msg-text {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  &__go-back-btn {
+    width: 100px;
+    background-color: #000;
+    color: #fff;
+    transition: all 0.4s;
+
+    &:hover {
+      color: yellow;
+      background-color: #000;
+    }
+  }
+}

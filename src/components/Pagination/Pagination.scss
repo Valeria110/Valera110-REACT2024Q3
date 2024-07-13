@@ -1,0 +1,33 @@
+.Pagination-wrapper {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  width: 180px;
+  margin: 0 auto;
+
+  &__btn {
+    &:focus {
+      outline: none;
+    }
+
+    &:disabled {
+      pointer-events: none;
+    }
+  }
+
+  &__input {
+    width: 100px;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #fff;
+    color: #fff;
+    text-align: center;
+    font-size: 1.2rem;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+      border-bottom: 1px solid yellow;
+    }
+  }
+}

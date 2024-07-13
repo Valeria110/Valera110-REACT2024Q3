@@ -1,42 +1,39 @@
-import { Component, ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import './App.scss';
-import { ErrorBoundary } from './utils/utils.tsx';
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
 import Header from './components/Header/Header.tsx';
-import { IProps, ResType } from './types/types.ts';
-import { fetchPeople, FetchPeopleReturnType, searchPeopleByName } from './services/services.ts';
-import Card from './components/Card/Card.tsx';
-import Loader from './components/Loader/Loader.tsx';
+import { ResType } from './types/types.ts';
+import { searchPeopleByName } from './services/services.ts';
+import Pagination from './components/Pagination/Pagination.tsx';
+import { calcPagesCount } from './utils/utils.ts';
+import { Outlet, useSearchParams } from 'react-router-dom';
+import CardsBlock from './components/CardsBlock/CardsBlock.tsx';
+import { useLocalStorage } from './hooks/useLocalStorage.ts';
 
 interface AppState {
   people: ResType[] | null;
 }
 
-class App extends Component<IProps, AppState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      people: null,
-    };
-    this.onSearch = this.onSearch.bind(this);
-  }
+function App(): ReactNode {
+  const [people, setPeople] = useState<AppState['people']>(null);
+  const [searchTerm, setSearchTerm] = useLocalStorage('');
+  const [pagesCount, setPagesCount] = useState(1);
+  const [pageNum, setPageNum] = useState(1);
 
-  componentDidMount(): void {
-    fetchPeople().then((data: FetchPeopleReturnType) => {
-      if (Array.isArray(data)) {
-        this.setState({ people: data });
-      }
-    });
-  }
+  const [, setSearchParams] = useSearchParams();
 
-  onSearch(searchTerm: string) {
-    this.setState({ people: null });
+  useEffect(() => {
+    setPeople(null);
 
-    searchPeopleByName(searchTerm)
+    searchPeopleByName(searchTerm, pageNum)
       .then((data) => {
-        if (data) {
-          this.setState({ people: data });
+        if (data && data.people) {
+          setPeople(data.people);
+          const pages = calcPagesCount(data.peopleCount);
+          setPagesCount(pages);
+          setSearchParams({ page: `${pageNum}` });
         } else {
-          this.setState({ people: [] });
+          setPeople([]);
         }
       })
       .catch((err: unknown) => {
@@ -44,29 +41,24 @@ class App extends Component<IProps, AppState> {
           console.error(`Error while searching: ${err}`);
         }
       });
-  }
+    // eslint-disable-next-line react-compiler/react-compiler
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchTerm, pageNum]);
 
-  render(): ReactNode {
-    const { people } = this.state;
-
-    return (
-      <>
-        <ErrorBoundary>
-          <Header onSearch={this.onSearch}></Header>
-          <main className="main">
-            {people ? (
-              people.length ? (
-                people.map((char) => <Card key={char.url} char={char}></Card>)
-              ) : (
-                <h3 className="main__not-found-text">No people found</h3>
-              )
-            ) : (
-              <Loader></Loader>
-            )}
-          </main>
-        </ErrorBoundary>
-      </>
-    );
-  }
+  return (
+    <>
+      <ErrorBoundary>
+        <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm} setPageNum={setPageNum}></Header>
+        <main className="Main">
+          <CardsBlock pageNum={pageNum} people={people} />
+          <div className="details" data-testid="details">
+            <Outlet context={people} />
+          </div>
+        </main>
+        {people ? <Pagination pagesCount={pagesCount} setPageNum={setPageNum} pageNum={pageNum} /> : null}
+      </ErrorBoundary>
+    </>
+  );
 }
+
 export default App;

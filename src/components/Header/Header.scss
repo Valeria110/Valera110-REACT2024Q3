@@ -1,21 +1,21 @@
-.header {
+.Header {
   display: flex;
   justify-content: flex-start;
   align-items: center;
   gap: 20px;
   width: 100%;
 
-  .header__swapi-logo {
+  &__swapi-logo {
     width: 150px;
     height: auto;
     border-radius: 10px;
   }
 
-  .header__test-btn {
+  &__test-btn {
     margin-left: 5%;
   }
 
-  .header__form {
+  &__form {
     margin-left: auto;
   }
 }
