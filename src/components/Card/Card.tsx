@@ -2,14 +2,15 @@ import { ReactNode } from 'react';
 import './Card.scss';
 import { IProps, ResType } from '../../types/types.ts';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../hooks/hooks.ts';
 
 interface CardProps extends IProps {
   char: ResType;
-  pageNum: number;
 }
 
-function Card({ char, pageNum }: CardProps): ReactNode {
+function Card({ char }: CardProps): ReactNode {
   const { name, birthYear } = char;
+  const pageNum = useAppSelector((state) => state.pagination);
 
   return (
     <ul className="main__card-list" data-testid="card">

@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from './hooks.ts';
+import { setNewSearchTerm } from '../features/searchTerm/searchTermSlice.ts';
 
-export const useLocalStorage = (initialValue: string): [string, React.Dispatch<React.SetStateAction<string>>] => {
-  const [searchTerm, setSearchTerm] = useState(() => {
-    const storedSearchTerm = localStorage.getItem('prevSearchTerm');
-    return storedSearchTerm ?? initialValue;
-  });
+export const useLocalStorage = () => {
+  const dispatch = useAppDispatch();
+  const initialValue = useAppSelector((state) => state.searchTerm);
 
   useEffect(() => {
+    const storedSearchTerm = localStorage.getItem('prevSearchTerm');
+    const searchTerm = storedSearchTerm ?? initialValue;
     localStorage.setItem('prevSearchTerm', searchTerm);
+    dispatch(setNewSearchTerm(searchTerm));
 
     return () => localStorage.clear();
-  }, [searchTerm]);
-
-  return [searchTerm, setSearchTerm];
+  }, [dispatch, initialValue]);
 };

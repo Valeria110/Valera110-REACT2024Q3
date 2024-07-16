@@ -2,23 +2,25 @@ import './Pagination.scss';
 import { ReactNode, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
+import { changeToNextPage, changeToPrevPage, setCurPage } from '../../features/pagination/paginationSlice.ts';
 
-interface PaginationProps {
-  pagesCount: number;
-  setPageNum: React.Dispatch<React.SetStateAction<number>>;
-  pageNum: number;
-}
-
-function Pagination({ pagesCount, setPageNum, pageNum }: PaginationProps): ReactNode {
-  const [inputValue, setInputValue] = useState(pageNum);
+function Pagination(): ReactNode {
+  const pageNum = useAppSelector((state) => state.pagination.page);
+  const pagesCount = useAppSelector((state) => state.pagination.pagesCount);
+  const [, setInputValue] = useState(pageNum);
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+
   const prevPage = () => {
-    setPageNum((p) => p - 1);
+    dispatch(changeToPrevPage());
+    setInputValue((p) => p - 1);
     navigate('/');
   };
 
   const nextPage = () => {
-    setPageNum((p) => p + 1);
+    dispatch(changeToNextPage());
+    setInputValue((p) => p + 1);
     navigate('/');
   };
 
@@ -33,7 +35,7 @@ function Pagination({ pagesCount, setPageNum, pageNum }: PaginationProps): React
     if (e.key === 'Enter') {
       const value = Number((e.target as HTMLInputElement).value);
       if (!Number.isNaN(value)) {
-        setPageNum(value);
+        dispatch(setCurPage(value));
         navigate('/');
       }
     }
@@ -51,7 +53,7 @@ function Pagination({ pagesCount, setPageNum, pageNum }: PaginationProps): React
       <input
         className="Pagination-wrapper__input"
         type="text"
-        value={inputValue}
+        value={pageNum}
         name="page"
         onChange={handleChange}
         onKeyDown={handleKeyDown}
