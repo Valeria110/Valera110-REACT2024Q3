@@ -53,13 +53,13 @@ function DetailsBlock(): ReactNode {
         <b>Mass:</b> {charData.mass ? charData.mass : 'unknown'}
       </li>
       <li className="main__card-list-item card__hair">
-        <b>Hair color:</b> {charData.hairColor ? charData.hairColor : 'unknown'}
+        <b>Hair color:</b> {charData.hair_color ? charData.hair_color : 'unknown'}
       </li>
       <li className="main__card-list-item card__skin">
-        <b>Skin color:</b> {charData.skinColor ? charData.skinColor : 'unknown'}
+        <b>Skin color:</b> {charData.skin_color ? charData.skin_color : 'unknown'}
       </li>
       <li className="main__card-list-item card__eyes">
-        <b>Eye color:</b> {charData.eyeColor ? charData.eyeColor : 'unknown'}
+        <b>Eye color:</b> {charData.eye_color ? charData.eye_color : 'unknown'}
       </li>
       <li className="main__card-list-item card__gender">
         <b>Gender:</b> {charData.gender ? charData.gender : 'unknown'}

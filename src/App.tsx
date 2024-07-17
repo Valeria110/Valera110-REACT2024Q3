@@ -11,6 +11,7 @@ import { useLocalStorage } from './hooks/useLocalStorage.ts';
 import { useAppDispatch, useAppSelector } from './hooks/hooks.ts';
 import { updatePeople } from './features/people/peopleSlice.ts';
 import { setPagesCount } from './features/pagination/paginationSlice.ts';
+import Flyout from './components/Flyout/Flyout.tsx';
 
 function App(): ReactNode {
   const people = useAppSelector((state) => state.people);
@@ -20,10 +21,10 @@ function App(): ReactNode {
   const pageNum = useAppSelector((state) => state.pagination.page);
   const [, setSearchParams] = useSearchParams();
 
-  const { data: peopleResponse, isLoading, error } = useGetPeopleByPageQuery({ page: pageNum, query: searchTerm });
+  const { data: peopleResponse, error, isFetching } = useGetPeopleByPageQuery({ page: pageNum, query: searchTerm });
 
   useEffect(() => {
-    if (!isLoading && !error) {
+    if (!isFetching && !error) {
       if (peopleResponse) {
         dispatch(updatePeople(peopleResponse.people));
         const pages = calcPagesCount(peopleResponse.count);
@@ -33,19 +34,20 @@ function App(): ReactNode {
         dispatch(updatePeople([]));
       }
     }
-  }, [peopleResponse, isLoading, error, dispatch, setSearchParams, pageNum]);
+  }, [peopleResponse, isFetching, error, dispatch, setSearchParams, pageNum]);
 
   return (
     <>
       <ErrorBoundary>
         <Header prevSearchTerm={searchTerm}></Header>
         <main className="Main">
-          <CardsBlock isLoading={isLoading} />
+          <CardsBlock isFetching={isFetching} />
           <div className="details" data-testid="details">
             <Outlet context={people} />
           </div>
         </main>
         {people ? <Pagination /> : null}
+        <Flyout />
       </ErrorBoundary>
     </>
   );

@@ -3,15 +3,15 @@ import Card from '../Card/Card.tsx';
 import Loader from '../Loader/Loader.tsx';
 
 interface CardsBlockProps {
-  isLoading: boolean;
+  isFetching: boolean;
 }
 
-function CardsBlock({ isLoading }: CardsBlockProps) {
+function CardsBlock({ isFetching }: CardsBlockProps) {
   const people = useAppSelector((state) => state.people);
 
   return (
     <div className="Main__left-section">
-      {isLoading ? (
+      {isFetching ? (
         <Loader></Loader>
       ) : people.length ? (
         people.map((char) => <Card key={char.url} char={char}></Card>)

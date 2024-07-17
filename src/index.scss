@@ -60,11 +60,6 @@ button {
   transition: border-color 0.25s;
 }
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -78,6 +73,9 @@ button:focus-visible {
     transition: background-color 0.4s;
     &:hover {
       background-color: rgba(249, 249, 249, 0.7);
+    }
+    &:active {
+      background-color: rgba(249, 249, 249, 0.5);
     }
   }
 }

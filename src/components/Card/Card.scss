@@ -22,4 +22,20 @@
     list-style: none;
     color: #000;
   }
+
+  .card__checkbox-label {
+    display: flex;
+    height: 30px;
+    gap: 10px;
+    align-items: baseline;
+    justify-content: flex-start;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .view-details-link {
+    margin-left: auto;
+  }
 }
