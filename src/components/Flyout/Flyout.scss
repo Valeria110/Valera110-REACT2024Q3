@@ -10,6 +10,15 @@
     color: #fff;
     font-size: 1.3rem;
     font-weight: 600;
+
+    &.dark {
+      width: fit-content;
+      padding: 10px;
+      margin: 0 auto;
+      background-color: black;
+      color: #fff;
+      border-radius: 10px;
+    }
   }
 
   &__btns-wrapper {

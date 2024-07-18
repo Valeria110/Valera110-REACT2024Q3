@@ -1,9 +1,10 @@
 import './Pagination.scss';
-import { ReactNode, useState } from 'react';
+import { ReactNode, useContext, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
 import { changeToNextPage, changeToPrevPage, setCurPage } from '../../features/pagination/paginationSlice.ts';
+import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 
 function Pagination(): ReactNode {
   const pageNum = useAppSelector((state) => state.pagination.page);
@@ -11,6 +12,7 @@ function Pagination(): ReactNode {
   const [, setInputValue] = useState(pageNum);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [colorTheme] = useContext(ColorThemeContext);
 
   const prevPage = () => {
     dispatch(changeToPrevPage());
@@ -45,7 +47,7 @@ function Pagination(): ReactNode {
     <div className="Pagination Pagination-wrapper">
       <Button
         disabled={pageNum < 2}
-        className="Pagination-wrapper__btn Pagination-wrapper__btn-prev"
+        className={`Pagination-wrapper__btn Pagination-wrapper__btn-prev ${colorTheme}`}
         onClick={prevPage}
       >
         Prev
@@ -60,7 +62,7 @@ function Pagination(): ReactNode {
       />
       <Button
         disabled={pageNum === pagesCount}
-        className="Pagination-wrapper__btn Pagination-wrapper__btn-next"
+        className={`Pagination-wrapper__btn Pagination-wrapper__btn-next ${colorTheme}`}
         onClick={nextPage}
       >
         Next

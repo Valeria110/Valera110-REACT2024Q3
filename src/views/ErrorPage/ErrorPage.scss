@@ -1,3 +1,5 @@
+$dark-mode-bgc: #1a1a1a;
+
 .Error {
   width: 50%;
   display: flex;
@@ -9,6 +11,16 @@
   border-radius: 10px;
   background-color: aliceblue;
   color: #000;
+
+  &.dark {
+    background-color: $dark-mode-bgc;
+
+    p,
+    span,
+    h1 {
+      color: #fff;
+    }
+  }
 
   &__error-msg {
     display: flex;

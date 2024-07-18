@@ -1,9 +1,10 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useContext } from 'react';
 import './Card.scss';
 import { IProps, ResType } from '../../types/types.ts';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
 import { addSelectedChar, removeSelectedChar } from '../../features/people/selectedPeopleSlice.ts';
+import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 
 interface CardProps extends IProps {
   char: ResType;
@@ -15,6 +16,7 @@ function Card({ char }: CardProps): ReactNode {
   const dispatch = useAppDispatch();
   const selectedPeople = useAppSelector((state) => state.selectedPeople);
   const isCharSelected = selectedPeople.find((selectedPerson) => selectedPerson.url === char.url) ? true : false;
+  const [colorTheme] = useContext(ColorThemeContext);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
@@ -25,11 +27,11 @@ function Card({ char }: CardProps): ReactNode {
   }
 
   return (
-    <ul className="main__card-list" data-testid="card">
-      <li className="main__card-list-item card__name">
+    <ul className={`main__card-list ${colorTheme}`} data-testid="card">
+      <li className={`main__card-list-item card__name ${colorTheme}`}>
         <b>Name:</b> {name}
       </li>
-      <li className="main__card-list-item card__birth-year">
+      <li className={`main__card-list-item card__birth-year ${colorTheme}`}>
         <b>Birth year:</b> {birth_year ? birth_year : 'unknown'}
       </li>
 

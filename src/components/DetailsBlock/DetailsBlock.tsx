@@ -1,9 +1,10 @@
 import './DetailsBlock.scss';
-import { ReactNode, useEffect, useRef, useState } from 'react';
+import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import Loader from '../Loader/Loader.tsx';
 import { ResType } from '../../types/types.ts';
 import Button from '../Button/Button.tsx';
+import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 
 interface CharDataState {
   people: ResType | null;
@@ -15,6 +16,7 @@ function DetailsBlock(): ReactNode {
   const { charId } = useParams();
   const detailsBlockRef = useRef<HTMLUListElement>(null);
   const navigate = useNavigate();
+  const [colorTheme] = useContext(ColorThemeContext);
 
   useEffect(() => {
     setCharData(null);
@@ -41,9 +43,9 @@ function DetailsBlock(): ReactNode {
   }, [charId, people]);
 
   return charData ? (
-    <ul ref={detailsBlockRef} className="main__card-list" data-testid="details-block">
-      <Button className="DetailsBlock__close-btn" disabled={false} onClick={() => navigate('/')}>
-        <i className="fa-solid fa-xmark" style={{ color: '#000' }}></i>
+    <ul ref={detailsBlockRef} className={`DetailsBlock main__card-list  ${colorTheme}`} data-testid="details-block">
+      <Button className={`DetailsBlock__close-btn ${colorTheme}`} disabled={false} onClick={() => navigate('/')}>
+        <i className="fa-solid fa-xmark" style={{ color: `${colorTheme !== 'dark' ? '#000' : '#fff'}` }}></i>
       </Button>
       <h1 className="DetailsBlock__header">Details:</h1>
       <li className="main__card-list-item card__height">

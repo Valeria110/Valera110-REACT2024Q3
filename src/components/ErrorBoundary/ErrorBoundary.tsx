@@ -1,5 +1,7 @@
+import './ErrorBoundary.scss';
 import { Component, ReactNode } from 'react';
 import { IErrorBoundaryState, IProps } from '../../types/types.ts';
+import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 
 class ErrorBoundary extends Component<IProps, IErrorBoundaryState> {
   state: Readonly<IErrorBoundaryState>;
@@ -25,11 +27,12 @@ class ErrorBoundary extends Component<IProps, IErrorBoundaryState> {
   }
 
   render(): ReactNode {
+    const theme = (this.context as [colortheme: string])[0];
     if (this.state.hasError) {
       return (
-        <div className="error-block">
+        <div className={`error-block ${theme}`}>
           <h1 className="error-block__header">Something went wrong :(</h1>
-          <button className="error-block__try-again-btn" onClick={this.closeError}>
+          <button className={`error-block__try-again-btn ${theme}`} onClick={this.closeError}>
             Try again
           </button>
         </div>
@@ -39,5 +42,7 @@ class ErrorBoundary extends Component<IProps, IErrorBoundaryState> {
     }
   }
 }
+
+ErrorBoundary.contextType = ColorThemeContext;
 
 export default ErrorBoundary;
