@@ -1,19 +1,21 @@
-import { describe, expect, it, Mock, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import Form from './Form.tsx';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { useLocalStorage } from '../../hooks/useLocalStorage.ts';
+import * as useLocalStorage from '../../hooks/useLocalStorage.ts';
 import userEvent from '@testing-library/user-event';
-
-const mockSetPageNum = vi.fn();
-const mockSetSearchTerm = vi.fn();
+import { Provider } from 'react-redux';
+import { store } from '../../app/store.ts';
+import searchTermSliceReducer, { setNewSearchTerm } from '../../features/searchTerm/searchTermSlice.ts';
 
 describe('Form component', () => {
   it('should render Form component with proper data', () => {
     render(
-      <BrowserRouter>
-        <Form setPageNum={mockSetPageNum} setSearchTerm={mockSetSearchTerm} prevSearchTerm="Lu"></Form>
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Form prevSearchTerm="Lu"></Form>
+        </BrowserRouter>
+      </Provider>,
     );
 
     expect(screen.getByRole('searchbox')).toBeInTheDocument();
@@ -21,24 +23,25 @@ describe('Form component', () => {
     expect(screen.getByRole('button')).toBeInTheDocument();
   });
 
-  it('should save a new search term on submit', async () => {
+  it('should save a new search term to the Redux store on submit', async () => {
     const searchTerm = '';
-    vi.mock('../../hooks/useLocalStorage.ts');
-    const mockUseLocalStorage = useLocalStorage as Mock;
-    mockUseLocalStorage.mockReturnValue([searchTerm, mockSetSearchTerm]);
+    const mockUseLocalStorage = vi.spyOn(useLocalStorage, 'useLocalStorage');
+    mockUseLocalStorage.mockImplementation(vi.fn());
 
     const user = userEvent.setup();
     render(
-      <BrowserRouter>
-        <Form setSearchTerm={mockSetSearchTerm} setPageNum={mockSetPageNum} prevSearchTerm={searchTerm} />
-      </BrowserRouter>,
+      <Provider store={store}>
+        <BrowserRouter>
+          <Form prevSearchTerm={searchTerm} />
+        </BrowserRouter>
+      </Provider>,
     );
+
+    const state = searchTermSliceReducer('', setNewSearchTerm('Test'));
 
     await user.type(screen.getByRole('searchbox'), 'Test');
     await user.click(screen.getByRole('button', { name: 'submit' }));
 
-    await waitFor(() => {
-      expect(mockSetSearchTerm).toHaveBeenCalledWith('Test');
-    });
+    expect(state).toBe('Test');
   });
 });

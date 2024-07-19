@@ -12,6 +12,7 @@ import { useAppDispatch, useAppSelector } from './hooks/hooks.ts';
 import { updatePeople } from './features/people/peopleSlice.ts';
 import { setPagesCount } from './features/pagination/paginationSlice.ts';
 import Flyout from './components/Flyout/Flyout.tsx';
+import { store } from './app/store.ts';
 
 function App(): ReactNode {
   const people = useAppSelector((state) => state.people);
@@ -22,6 +23,7 @@ function App(): ReactNode {
   const [, setSearchParams] = useSearchParams();
 
   const { data: peopleResponse, error, isFetching } = useGetPeopleByPageQuery({ page: pageNum, query: searchTerm });
+  console.log(store);
 
   useEffect(() => {
     if (!isFetching && !error) {
