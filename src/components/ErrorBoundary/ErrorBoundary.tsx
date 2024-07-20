@@ -1,5 +1,5 @@
 import './ErrorBoundary.scss';
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
 import { IErrorBoundaryState, IProps } from '../../types/types.ts';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 
@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<IProps, IErrorBoundaryState> {
     this.setState({ hasError: false });
   }
 
-  render(): ReactNode {
+  render() {
     const theme = (this.context as [colortheme: string])[0];
     if (this.state.hasError) {
       return (

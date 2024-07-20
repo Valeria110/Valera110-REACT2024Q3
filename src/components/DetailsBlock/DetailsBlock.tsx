@@ -1,16 +1,17 @@
 import './DetailsBlock.scss';
-import { ReactNode, useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import Loader from '../Loader/Loader.tsx';
 import { ResType } from '../../types/types.ts';
 import Button from '../Button/Button.tsx';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
+import ListItem from '../ListItem/ListItem.tsx';
 
 interface CharDataState {
   people: ResType | null;
 }
 
-function DetailsBlock(): ReactNode {
+function DetailsBlock() {
   const people = useOutletContext() as ResType[] | null;
   const [charData, setCharData] = useState<CharDataState['people']>(null);
   const { charId } = useParams();
@@ -38,34 +39,20 @@ function DetailsBlock(): ReactNode {
     return () => {
       window.removeEventListener('click', handleClick);
     };
-    // eslint-disable-next-line react-compiler/react-compiler
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [charId, people]);
+  }, [charId, navigate, people]);
 
   return charData ? (
     <ul ref={detailsBlockRef} className={`DetailsBlock main__card-list  ${colorTheme}`} data-testid="details-block">
-      <Button className={`DetailsBlock__close-btn ${colorTheme}`} disabled={false} onClick={() => navigate('/')}>
+      <Button className={`DetailsBlock__close-btn ${colorTheme}`} disabled={false} handleClick={() => navigate('/')}>
         <i className="fa-solid fa-xmark" style={{ color: `${colorTheme !== 'dark' ? '#000' : '#fff'}` }}></i>
       </Button>
       <h1 className="DetailsBlock__header">Details:</h1>
-      <li className="main__card-list-item card__height">
-        <b>Height:</b> {charData.height ? charData.height : 'unknown'}
-      </li>
-      <li className="main__card-list-item card__mass">
-        <b>Mass:</b> {charData.mass ? charData.mass : 'unknown'}
-      </li>
-      <li className="main__card-list-item card__hair">
-        <b>Hair color:</b> {charData.hair_color ? charData.hair_color : 'unknown'}
-      </li>
-      <li className="main__card-list-item card__skin">
-        <b>Skin color:</b> {charData.skin_color ? charData.skin_color : 'unknown'}
-      </li>
-      <li className="main__card-list-item card__eyes">
-        <b>Eye color:</b> {charData.eye_color ? charData.eye_color : 'unknown'}
-      </li>
-      <li className="main__card-list-item card__gender">
-        <b>Gender:</b> {charData.gender ? charData.gender : 'unknown'}
-      </li>
+      <ListItem label="Height: " value={charData.height} className="main__card-list-item card__height" />
+      <ListItem label="Mass: " value={charData.mass} className="main__card-list-item card__mass" />
+      <ListItem label="Hair color: " value={charData.hair_color} className="main__card-list-item card__hair" />
+      <ListItem label="Skin color: " value={charData.skin_color} className="main__card-list-item card__skin" />
+      <ListItem label="Eye color: " value={charData.eye_color} className="main__card-list-item card__eyes" />
+      <ListItem label="Gender: " value={charData.gender} className="main__card-list-item card__gender" />
     </ul>
   ) : (
     <Loader />

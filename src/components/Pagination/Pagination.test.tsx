@@ -44,7 +44,8 @@ describe('Pagination component', () => {
     );
 
     const paginationInput = screen.getByRole('textbox');
-    user.type(paginationInput, '3');
+    await user.type(paginationInput, '3');
+    expect(paginationInput).toHaveValue('13');
     await user.keyboard('Enter');
     const state = paginationSliceReducer({ page: 1, pagesCount: 8 }, setCurPage(3));
     expect(state.page).toBe(3);

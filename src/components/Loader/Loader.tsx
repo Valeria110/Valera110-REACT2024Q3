@@ -1,7 +1,6 @@
-import { ReactNode } from 'react';
 import './Loader.scss';
 
-function Loader(): ReactNode {
+function Loader() {
   return (
     <div className="loader-mask" data-testid="loader">
       <div className="loader"></div>

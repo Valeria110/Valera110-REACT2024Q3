@@ -1,4 +1,4 @@
-import { ReactNode, useEffect } from 'react';
+import { useEffect } from 'react';
 import './App.scss';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
 import Header from './components/Header/Header.tsx';
@@ -12,9 +12,8 @@ import { useAppDispatch, useAppSelector } from './hooks/hooks.ts';
 import { updatePeople } from './features/people/peopleSlice.ts';
 import { setPagesCount } from './features/pagination/paginationSlice.ts';
 import Flyout from './components/Flyout/Flyout.tsx';
-import { store } from './app/store.ts';
 
-function App(): ReactNode {
+function App() {
   const people = useAppSelector((state) => state.people);
   const dispatch = useAppDispatch();
   useLocalStorage();
@@ -23,7 +22,6 @@ function App(): ReactNode {
   const [, setSearchParams] = useSearchParams();
 
   const { data: peopleResponse, error, isFetching } = useGetPeopleByPageQuery({ page: pageNum, query: searchTerm });
-  console.log(store);
 
   useEffect(() => {
     if (!isFetching && !error) {

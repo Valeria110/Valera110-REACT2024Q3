@@ -5,16 +5,16 @@ type ButtonTypes = 'submit' | 'reset' | 'button';
 
 interface IButtonProps {
   children?: ReactNode;
-  onClick: () => void;
+  handleClick: () => void;
   onSubmit?: (e: Event) => void;
   className: string;
   type?: ButtonTypes;
   disabled: boolean;
 }
 
-function Button({ children, onClick, className, type = 'button', disabled }: IButtonProps): ReactNode {
+function Button({ children, handleClick, className, type = 'button', disabled }: IButtonProps): ReactNode {
   return (
-    <button className={className} type={type} onClick={onClick} disabled={disabled}>
+    <button className={className} type={type} onClick={handleClick} disabled={disabled}>
       {children}
     </button>
   );

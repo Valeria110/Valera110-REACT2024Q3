@@ -1,16 +1,17 @@
-import React, { ReactNode, useContext } from 'react';
+import React, { useContext } from 'react';
 import './Card.scss';
 import { IProps, ResType } from '../../types/types.ts';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
 import { addSelectedChar, removeSelectedChar } from '../../features/people/selectedPeopleSlice.ts';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
+import ListItem from '../ListItem/ListItem.tsx';
 
 interface CardProps extends IProps {
   char: ResType;
 }
 
-function Card({ char }: CardProps): ReactNode {
+function Card({ char }: CardProps) {
   const { name, birth_year } = char;
   const pageNum = useAppSelector((state) => state.pagination);
   const dispatch = useAppDispatch();
@@ -28,12 +29,8 @@ function Card({ char }: CardProps): ReactNode {
 
   return (
     <ul className={`main__card-list ${colorTheme}`} data-testid="card">
-      <li className={`main__card-list-item card__name ${colorTheme}`}>
-        <b>Name:</b> {name}
-      </li>
-      <li className={`main__card-list-item card__birth-year ${colorTheme}`}>
-        <b>Birth year:</b> {birth_year ? birth_year : 'unknown'}
-      </li>
+      <ListItem className="main__card-list-item card__name" label="Name: " value={name}></ListItem>
+      <ListItem className="main__card-list-item card__birth-year" label="Birth year: " value={birth_year}></ListItem>
 
       <label className="card__checkbox-label">
         Select item

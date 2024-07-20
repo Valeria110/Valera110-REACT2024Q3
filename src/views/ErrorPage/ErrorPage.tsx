@@ -17,7 +17,7 @@ function ErrorPage() {
         <span className="Error__error-status">404</span>
         <span className="Error__error-msg-text">Page not found</span>
       </p>
-      <Button className={`Error__go-back-btn ${colorTheme}`} disabled={false} onClick={() => navigate(-1)}>
+      <Button className={`Error__go-back-btn ${colorTheme}`} disabled={false} handleClick={() => navigate(-1)}>
         Go back
       </Button>
     </div>

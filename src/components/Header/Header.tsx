@@ -1,4 +1,3 @@
-import { ReactNode } from 'react';
 import './Header.scss';
 import SWLogo from '../../assets/star-wars-logo.png';
 import ErrorButton from '../ErrorButton/ErrorButton.tsx';
@@ -9,7 +8,7 @@ interface HeaderProps {
   prevSearchTerm: string;
 }
 
-function Header({ prevSearchTerm }: HeaderProps): ReactNode {
+function Header({ prevSearchTerm }: HeaderProps) {
   return (
     <>
       <header className="Header">
