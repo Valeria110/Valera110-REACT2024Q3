@@ -1,3 +1,6 @@
+$dark-mode-bgc: #1a1a1a;
+$dark-mode-bgc-hover: #1a1a1ad6;
+
 .main__card-list {
   display: flex;
   flex-direction: column;
@@ -13,6 +16,21 @@
   outline-offset: 2px;
   outline: 1px solid yellow;
 
+  &.dark {
+    background-color: $dark-mode-bgc;
+    color: #fff;
+
+    &:hover {
+      background-color: $dark-mode-bgc-hover;
+    }
+
+    p,
+    li,
+    h1 {
+      color: #fff;
+    }
+  }
+
   &:hover {
     transform: scale(1.03);
     background-color: rgba(255, 255, 255, 0.8);
@@ -21,5 +39,25 @@
   .main__card-list-item {
     list-style: none;
     color: #000;
+
+    &.dark {
+      color: #fff;
+    }
+  }
+
+  .card__checkbox-label {
+    display: flex;
+    height: 30px;
+    gap: 10px;
+    align-items: baseline;
+    justify-content: flex-start;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .view-details-link {
+    margin-left: auto;
   }
 }

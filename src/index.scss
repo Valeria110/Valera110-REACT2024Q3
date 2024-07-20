@@ -1,3 +1,6 @@
+$btn-border-color: #ffd54f;
+$btn-bgc-disabled: rgba(66, 66, 66, 0.29);
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -58,11 +61,24 @@ button {
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
-}
 
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  &.dark {
+    background-color: #1a1a1a;
+    color: #fff;
+    border: 1px solid $btn-border-color;
+
+    &:hover {
+      background-color: #2e2e2e;
+      color: #fff;
+    }
+    &:active {
+      background-color: rgba(26, 26, 26, 0.4);
+    }
+    &:disabled {
+      background-color: $btn-bgc-disabled;
+      color: #ffffff6c;
+    }
+  }
 }
 
 @media (prefers-color-scheme: light) {
@@ -78,6 +94,9 @@ button:focus-visible {
     transition: background-color 0.4s;
     &:hover {
       background-color: rgba(249, 249, 249, 0.7);
+    }
+    &:active {
+      background-color: rgba(249, 249, 249, 0.5);
     }
   }
 }

@@ -1,22 +1,26 @@
-import { ChangeEvent, FormEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import './Form.scss';
 import { IProps } from '../../types/types.ts';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/hooks.ts';
+import { setCurPage } from '../../features/pagination/paginationSlice.ts';
+import { setNewSearchTerm } from '../../features/searchTerm/searchTermSlice.ts';
+import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 
 interface FormProps extends IProps {
-  setSearchTerm: React.Dispatch<React.SetStateAction<string>>;
   prevSearchTerm: string;
-  setPageNum: React.Dispatch<React.SetStateAction<number>>;
 }
 
-function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
+function Form({ prevSearchTerm }: FormProps) {
   const [searchQuery, setSearchQuery] = useState(() => prevSearchTerm ?? '');
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const [colorTheme] = useContext(ColorThemeContext);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    setSearchTerm(searchQuery.trim());
-    setPageNum(1);
+    dispatch(setNewSearchTerm(searchQuery.trim()));
+    dispatch(setCurPage(1));
     navigate('/');
   };
 
@@ -35,7 +39,7 @@ function Form({ setSearchTerm, prevSearchTerm, setPageNum }: FormProps) {
           name="search"
           onChange={onChange}
         />
-        <button className="Header__form-submit-btn" type="submit" aria-label="submit">
+        <button className={`Header__form-submit-btn ${colorTheme}`} type="submit" aria-label="submit">
           <i className="fa-solid fa-magnifying-glass"></i>
         </button>
       </form>

@@ -8,16 +8,16 @@ interface IProps {
   children?: ReactNode;
 }
 
-type GenderType = 'male' | 'female' | 'unknown' | 'n/a';
+export type GenderType = 'male' | 'female' | 'unknown' | 'n/a';
 
 type ResType = {
   name: string;
   height: string;
   mass: string;
-  hairColor: string;
-  skinColor: string;
-  eyeColor: string;
-  birthYear: string;
+  hair_color: string;
+  skin_color: string;
+  eye_color: string;
+  birth_year: string;
   gender: GenderType;
   url: string;
 };

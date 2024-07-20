@@ -1,61 +1,53 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import './App.scss';
 import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary.tsx';
 import Header from './components/Header/Header.tsx';
-import { ResType } from './types/types.ts';
-import { searchPeopleByName } from './services/services.ts';
+import { useGetPeopleByPageQuery } from './services/services.ts';
 import Pagination from './components/Pagination/Pagination.tsx';
 import { calcPagesCount } from './utils/utils.ts';
 import { Outlet, useSearchParams } from 'react-router-dom';
 import CardsBlock from './components/CardsBlock/CardsBlock.tsx';
 import { useLocalStorage } from './hooks/useLocalStorage.ts';
+import { useAppDispatch, useAppSelector } from './hooks/hooks.ts';
+import { updatePeople } from './features/people/peopleSlice.ts';
+import { setPagesCount } from './features/pagination/paginationSlice.ts';
+import Flyout from './components/Flyout/Flyout.tsx';
 
-interface AppState {
-  people: ResType[] | null;
-}
-
-function App(): ReactNode {
-  const [people, setPeople] = useState<AppState['people']>(null);
-  const [searchTerm, setSearchTerm] = useLocalStorage('');
-  const [pagesCount, setPagesCount] = useState(1);
-  const [pageNum, setPageNum] = useState(1);
-
+function App() {
+  const people = useAppSelector((state) => state.people);
+  const dispatch = useAppDispatch();
+  useLocalStorage();
+  const searchTerm = useAppSelector((state) => state.searchTerm);
+  const pageNum = useAppSelector((state) => state.pagination.page);
   const [, setSearchParams] = useSearchParams();
 
-  useEffect(() => {
-    setPeople(null);
+  const { data: peopleResponse, error, isFetching } = useGetPeopleByPageQuery({ page: pageNum, query: searchTerm });
 
-    searchPeopleByName(searchTerm, pageNum)
-      .then((data) => {
-        if (data && data.people) {
-          setPeople(data.people);
-          const pages = calcPagesCount(data.peopleCount);
-          setPagesCount(pages);
-          setSearchParams({ page: `${pageNum}` });
-        } else {
-          setPeople([]);
-        }
-      })
-      .catch((err: unknown) => {
-        if (typeof err === 'string') {
-          console.error(`Error while searching: ${err}`);
-        }
-      });
-    // eslint-disable-next-line react-compiler/react-compiler
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm, pageNum]);
+  useEffect(() => {
+    if (!isFetching && !error) {
+      if (peopleResponse) {
+        dispatch(updatePeople(peopleResponse.people));
+        const pages = calcPagesCount(peopleResponse.count);
+        dispatch(setPagesCount(pages));
+        setSearchParams({ page: `${pageNum}` });
+      } else {
+        dispatch(updatePeople([]));
+      }
+    }
+  }, [peopleResponse, isFetching, error, dispatch, setSearchParams, pageNum]);
 
   return (
     <>
       <ErrorBoundary>
-        <Header setSearchTerm={setSearchTerm} prevSearchTerm={searchTerm} setPageNum={setPageNum}></Header>
+        <Header prevSearchTerm={searchTerm}></Header>
         <main className="Main">
-          <CardsBlock pageNum={pageNum} people={people} />
+          <CardsBlock isFetching={isFetching} />
           <div className="details" data-testid="details">
             <Outlet context={people} />
           </div>
         </main>
-        {people ? <Pagination pagesCount={pagesCount} setPageNum={setPageNum} pageNum={pageNum} /> : null}
+        {people ? <Pagination /> : null}
+        <Flyout />
       </ErrorBoundary>
     </>
   );
