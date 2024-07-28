@@ -7,6 +7,8 @@ module.exports = {
     'plugin:react-hooks/recommended',
     'plugin:import/recommended',
     'prettier',
+    'next',
+    'next/core-web-vitals',
   ],
   ignorePatterns: ['dist', '.eslintrc.cjs'],
   parser: '@typescript-eslint/parser',

@@ -11,7 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
-coverage
+
+# testing
+/coverage
 
 # Editor directories and files
 .vscode/*
@@ -23,3 +25,9 @@ coverage
 *.njsproj
 *.sln
 *.sw?
+
+# next.js
+/.next/
+/out/
+.next
+next-env.d.ts
