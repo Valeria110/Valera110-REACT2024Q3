@@ -1,3 +1,13 @@
+@import '../components//Card/Card.scss';
+@import '../components//ColorThemeButton/ColorThemeButton.scss';
+@import '../components//Flyout/Flyout.scss';
+@import '../components//Form/Form.scss';
+@import '../components//Header/Header.scss';
+@import '../components//Loader/Loader.scss';
+@import '../components//Pagination/Pagination.scss';
+@import '../components//DetailsBlock/DetailsBlock.scss';
+@import '../views/ErrorPage/ErrorPage.scss';
+
 $btn-border-color: #ffd54f;
 $btn-bgc-disabled: rgba(66, 66, 66, 0.29);
 
@@ -26,6 +36,10 @@ $btn-bgc-disabled: rgba(66, 66, 66, 0.29);
   -moz-osx-font-smoothing: grayscale;
 }
 
+#__next {
+  width: 100%;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -41,7 +55,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: url('./assets/star-wars-bgc.jpg') no-repeat;
+  background: url('../assets/star-wars-bgc.jpg') no-repeat;
+  background-repeat: no-repeat;
   background-size: cover;
   background-position: 50%;
 }
