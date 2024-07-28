@@ -4,16 +4,10 @@
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "target": "es2022",
     "useDefineForClassFields": true,
-    "lib": [
-      "es2022",
-      "DOM",
-      "DOM.Iterable"
-    ],
+    "lib": ["es2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "types": [
-      "@testing-library/jest-dom"
-    ],
+    "types": ["@testing-library/jest-dom"],
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -45,14 +39,6 @@
     "incremental": true,
     "isolatedModules": true
   },
-  "include": [
-    "./src",
-    "**/*.ts",
-    "**/*.tsx",
-    "./dist/types/**/*.ts",
-    "./next-env.d.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["./src", "**/*.ts", "**/*.tsx", "./dist/types/**/*.ts", "./next-env.d.ts"],
+  "exclude": ["node_modules"]
 }
