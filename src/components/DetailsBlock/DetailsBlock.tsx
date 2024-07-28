@@ -1,62 +1,43 @@
-import './DetailsBlock.scss';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import Loader from '../Loader/Loader.tsx';
 import { ResType } from '../../types/types.ts';
-import Button from '../Button/Button.tsx';
+import { useContext, useRef } from 'react';
+import { useRouter } from 'next/navigation';
+import { useAppSelector } from '../../hooks/hooks.ts';
+import Button from '../../components/Button/Button.tsx';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
-import ListItem from '../ListItem/ListItem.tsx';
+import ListItem from '../../components/ListItem/ListItem.tsx';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-interface CharDataState {
-  people: ResType | null;
-}
-
-function DetailsBlock() {
-  const people = useOutletContext() as ResType[] | null;
-  const [charData, setCharData] = useState<CharDataState['people']>(null);
-  const { charId } = useParams();
+export default function DetailsBlock({ data }: { data: ResType }) {
   const detailsBlockRef = useRef<HTMLUListElement>(null);
-  const navigate = useNavigate();
+  const router = useRouter();
+  const searchTerm = useAppSelector((state) => state.searchTerm);
+  const page = useAppSelector((state) => state.pagination.page);
   const [colorTheme] = useContext(ColorThemeContext);
 
-  useEffect(() => {
-    setCharData(null);
-    window.addEventListener('click', handleClick);
-
-    setTimeout(() => {
-      if (people?.length) {
-        const charItem = people.filter((char) => char.name === charId);
-        setCharData(charItem[0]);
-      }
-    }, 1500);
-
-    function handleClick(e: Event) {
-      if (!detailsBlockRef.current?.contains(e.target as Node) && !(e.target instanceof HTMLAnchorElement)) {
-        navigate('/');
-      }
+  window.addEventListener('click', handleClick);
+  function handleClick(e: Event) {
+    if (!detailsBlockRef.current?.contains(e.target as Node) && !(e.target instanceof HTMLAnchorElement)) {
+      router.push(`/?page=${page}&search=${searchTerm}`);
     }
+  }
 
-    return () => {
-      window.removeEventListener('click', handleClick);
-    };
-  }, [charId, navigate, people]);
-
-  return charData ? (
+  return (
     <ul ref={detailsBlockRef} className={`DetailsBlock main__card-list  ${colorTheme}`} data-testid="details-block">
-      <Button className={`DetailsBlock__close-btn ${colorTheme}`} disabled={false} handleClick={() => navigate('/')}>
-        <i className="fa-solid fa-xmark" style={{ color: `${colorTheme !== 'dark' ? '#000' : '#fff'}` }}></i>
+      <Button
+        className={`DetailsBlock__close-btn ${colorTheme}`}
+        disabled={false}
+        handleClick={() => router.push(`/?page=${page}&search=${searchTerm}`)}
+      >
+        <FontAwesomeIcon icon={faXmark} style={{ color: `${colorTheme !== 'dark' ? '#000' : '#fff'}` }} />
       </Button>
       <h1 className="DetailsBlock__header">Details:</h1>
-      <ListItem label="Height: " value={charData.height} className="main__card-list-item card__height" />
-      <ListItem label="Mass: " value={charData.mass} className="main__card-list-item card__mass" />
-      <ListItem label="Hair color: " value={charData.hair_color} className="main__card-list-item card__hair" />
-      <ListItem label="Skin color: " value={charData.skin_color} className="main__card-list-item card__skin" />
-      <ListItem label="Eye color: " value={charData.eye_color} className="main__card-list-item card__eyes" />
-      <ListItem label="Gender: " value={charData.gender} className="main__card-list-item card__gender" />
+      <ListItem label="Height: " value={data.height} className="main__card-list-item card__height" />
+      <ListItem label="Mass: " value={data.mass} className="main__card-list-item card__mass" />
+      <ListItem label="Hair color: " value={data.hair_color} className="main__card-list-item card__hair" />
+      <ListItem label="Skin color: " value={data.skin_color} className="main__card-list-item card__skin" />
+      <ListItem label="Eye color: " value={data.eye_color} className="main__card-list-item card__eyes" />
+      <ListItem label="Gender: " value={data.gender} className="main__card-list-item card__gender" />
     </ul>
-  ) : (
-    <Loader />
   );
 }
-
-export default DetailsBlock;

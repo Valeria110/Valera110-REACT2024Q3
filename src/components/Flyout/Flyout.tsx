@@ -1,9 +1,10 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
-import './Flyout.scss';
 import { unselectAllPeople } from '../../features/people/selectedPeopleSlice.ts';
 import { ResType } from '../../types/types.ts';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 import { useContext } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faXmark, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 function Flyout() {
   const selectedItems = useAppSelector((state) => state.selectedPeople);
@@ -55,14 +56,14 @@ function Flyout() {
     return (
       <div className="Flyout">
         <p className={`Flyout__selected-items-count ${colorTheme}`}>
-          <i className="fa-solid fa-heart" style={{ color: '#eb0f0f' }}></i> : {selectedItems.length}
+          <FontAwesomeIcon icon={faHeart} style={{ color: '#eb0f0f' }} /> : {selectedItems.length}
         </p>
         <div className="Flyout__btns-wrapper">
           <button className={`Flyout__unselect-btn ${colorTheme}`} onClick={unselectAllItems}>
-            Unselect all <i className="fa-solid fa-xmark" style={{ color: '#c2c2c2', lineHeight: '24px' }}></i>
+            Unselect all <FontAwesomeIcon icon={faXmark} style={{ color: '#c2c2c2', lineHeight: '24px' }} />
           </button>
           <button className={`Flyout__download-btn ${colorTheme}`} onClick={handleDownload}>
-            Download <i className="fa-solid fa-download" style={{ color: '#005eff', lineHeight: '24px' }}></i>
+            Download <FontAwesomeIcon icon={faDownload} style={{ color: '#005eff', lineHeight: '24px' }} />
           </button>
         </div>
       </div>

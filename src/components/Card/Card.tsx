@@ -1,11 +1,11 @@
 import React, { useContext } from 'react';
-import './Card.scss';
 import { IProps, ResType } from '../../types/types.ts';
-import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
 import { addSelectedChar, removeSelectedChar } from '../../features/people/selectedPeopleSlice.ts';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 import ListItem from '../ListItem/ListItem.tsx';
+import Link from 'next/link';
+import { getCharId } from '../../utils/utils.ts';
 
 interface CardProps extends IProps {
   char: ResType;
@@ -13,11 +13,11 @@ interface CardProps extends IProps {
 
 function Card({ char }: CardProps) {
   const { name, birth_year } = char;
-  const pageNum = useAppSelector((state) => state.pagination);
   const dispatch = useAppDispatch();
   const selectedPeople = useAppSelector((state) => state.selectedPeople);
   const isCharSelected = selectedPeople.find((selectedPerson) => selectedPerson.url === char.url) ? true : false;
   const [colorTheme] = useContext(ColorThemeContext);
+  const charId = getCharId(char.url);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     if (e.target.checked) {
@@ -36,7 +36,7 @@ function Card({ char }: CardProps) {
         Select item
         <input checked={isCharSelected} type="checkbox" onChange={handleChange} />
       </label>
-      <Link className="view-details-link" to={`details/${char.name}?page=${pageNum}`}>
+      <Link className="view-details-link" href={`/?details=${charId}`}>
         View details
       </Link>
     </ul>
