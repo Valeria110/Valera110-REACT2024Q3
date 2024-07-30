@@ -1,21 +1,25 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import ErrorPage from './ErrorPage.tsx';
+import ErrorPage from '../../pages/404.tsx';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store.ts';
 
-vi.mock('react-router-dom', () => ({
-  useNavigate: vi.fn(() => ({
-    push: vi.fn(),
-    go: vi.fn(),
-    replace: vi.fn(),
-    back: vi.fn(),
-    forward: vi.fn(),
-  })),
-  useRouteError: vi.fn(),
+vi.mock('next/navigation', () => ({
+  useRouter() {
+    return {
+      prefetch: () => null,
+      push: vi.fn(),
+    };
+  },
 }));
 
 describe('ErrorPage', () => {
   it('should render ErrorPage with proper data', () => {
-    render(<ErrorPage />);
+    render(
+      <Provider store={store}>
+        <ErrorPage />
+      </Provider>,
+    );
     expect(screen.getByRole('button', { name: 'Go back' })).toBeInTheDocument();
   });
 });

@@ -7,7 +7,7 @@ function Header() {
   return (
     <>
       <header className="Header">
-        <Image src={SWLogo.src} alt="star wars logo" width={150} height={100} className="Header__swapi-logo" />
+        <Image src={SWLogo} alt="star wars logo" width={150} height={100} className="Header__swapi-logo" />
         <ColorThemeButton />
         <Form></Form>
       </header>

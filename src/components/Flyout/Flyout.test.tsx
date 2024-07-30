@@ -1,15 +1,29 @@
 import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import { store } from '../../app/store.ts';
+import { store } from '../../store/store.ts';
 import { describe, expect, it, vi } from 'vitest';
-import { BrowserRouter } from 'react-router-dom';
 import ColorThemeProvider from '../../utils/colorThemeContext.tsx';
 import * as customHooks from '../../hooks/hooks.ts';
 import Flyout from './Flyout.tsx';
+import { ResType } from '../../types/types.ts';
 
 const mockData = [
   { url: '123', isSelected: true },
   { url: '45t57b', isSelected: true },
+];
+
+const mockPeopleData: ResType[] = [
+  {
+    name: 'Luke Skywalker',
+    height: '180',
+    mass: '70',
+    hair_color: 'black',
+    skin_color: 'white',
+    eye_color: 'blue',
+    birth_year: '2000',
+    gender: 'male',
+    url: 'https/ddkfjnvkd;alslmvpeople/1',
+  },
 ];
 
 describe('Flyout component', () => {
@@ -19,11 +33,9 @@ describe('Flyout component', () => {
 
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <ColorThemeProvider>
-            <Flyout />
-          </ColorThemeProvider>
-        </BrowserRouter>
+        <ColorThemeProvider>
+          <Flyout people={mockPeopleData} />
+        </ColorThemeProvider>
       </Provider>,
     );
 
@@ -36,11 +48,9 @@ describe('Flyout component', () => {
 
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <ColorThemeProvider>
-            <Flyout />
-          </ColorThemeProvider>
-        </BrowserRouter>
+        <ColorThemeProvider>
+          <Flyout people={mockPeopleData} />
+        </ColorThemeProvider>
       </Provider>,
     );
 
