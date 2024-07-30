@@ -1,9 +1,6 @@
+import { useAppSelector } from '../../hooks/hooks.ts';
 import { ResType } from '../../types/types.ts';
 import Card from '../Card/Card.tsx';
-
-interface CardsBlockProps {
-  people: ResType[];
-}
 
 function generateCards(people: ResType[]) {
   return people ? (
@@ -13,7 +10,8 @@ function generateCards(people: ResType[]) {
   );
 }
 
-function CardsBlock({ people }: CardsBlockProps) {
+function CardsBlock() {
+  const people = useAppSelector((state) => state.people);
   return <div className="Main__left-section">{generateCards(people)}</div>;
 }
 

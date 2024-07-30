@@ -4,12 +4,13 @@ import CardsBlock from '../components/CardsBlock/CardsBlock';
 import Pagination from '../components/Pagination/Pagination';
 import Flyout from '../components/Flyout/Flyout';
 import { InferGetServerSidePropsType } from 'next';
-import { getPeople } from '../services/services.ts';
+import { getPeople, getPeopleById } from '../services/services.ts';
 import { useAppDispatch } from '../hooks/hooks.ts';
 import { updatePeople } from '../features/people/peopleSlice.ts';
-import { setPagesCount } from '../features/pagination/paginationSlice.ts';
-import { calcPagesCount, getCharId } from '../utils/utils.ts';
+import { setCurPage, setPagesCount } from '../features/pagination/paginationSlice.ts';
+import { calcPagesCount } from '../utils/utils.ts';
 import DetailsBlock from '../components/DetailsBlock/DetailsBlock.tsx';
+import { setNewSearchTerm } from '../features/searchTerm/searchTermSlice.ts';
 
 export interface IContext {
   query: { search: string; page: string; details: string };
@@ -17,32 +18,50 @@ export interface IContext {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const getServerSideProps = async (context: IContext) => {
+  const query = context.query.search ?? '';
+  const page = Number.isNaN(Number(context.query.page)) ? 1 : Number(context.query.page);
+  console.log('query: ', query, 'page: ', page, 'details: ', context.query.details);
+
+  const peopleData = await getPeople(query, page);
+
   if (context.query.details) {
     const detailsId = context.query.details;
-    const peopleData = await getPeople();
-    const charData = peopleData.results.filter((char) => getCharId(char.url) === detailsId)[0];
+    const charData = await getPeopleById(detailsId);
+    console.log(charData);
 
     return {
-      props: { peopleData, charData },
+      props: {
+        data: {
+          peopleData,
+          charData,
+          query,
+          page,
+        },
+      },
     };
   }
 
-  const query = context.query.search ?? '';
-  const page = Number.isNaN(Number(context.query.page)) ? 1 : Number(context.query.page);
-
-  const peopleData = await getPeople(query, page);
   return {
-    props: { peopleData, charData: null },
+    props: {
+      data: {
+        peopleData,
+        charData: null,
+        query,
+        page,
+      },
+    },
   };
 };
 
-export default function App({ peopleData, charData }: InferGetServerSidePropsType<typeof getServerSideProps>) {
+export default function App({ data }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const dispatch = useAppDispatch();
 
-  const people = peopleData.results;
+  const people = data.peopleData.results;
   dispatch(updatePeople(people));
-  const pages = calcPagesCount(peopleData.count);
+  const pages = calcPagesCount(data.peopleData.count);
   dispatch(setPagesCount(pages));
+  dispatch(setCurPage(data.page));
+  dispatch(setNewSearchTerm(data.query));
 
   return (
     <>
@@ -51,13 +70,13 @@ export default function App({ peopleData, charData }: InferGetServerSidePropsTyp
       </Head>
       <Header></Header>
       <main className="Main">
-        <CardsBlock people={people} />
+        <CardsBlock />
         <div className="details" data-testid="details">
-          {charData ? <DetailsBlock data={charData} /> : null}
+          {data.charData ? <DetailsBlock data={data.charData} /> : null}
         </div>
       </main>
       {people ? <Pagination /> : null}
-      <Flyout />
+      <Flyout people={data.peopleData.results} />
     </>
   );
 }

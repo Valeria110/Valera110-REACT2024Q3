@@ -1,5 +1,5 @@
 import { ResType } from '../../types/types.ts';
-import { useContext, useRef } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../../hooks/hooks.ts';
 import Button from '../../components/Button/Button.tsx';
@@ -15,7 +15,10 @@ export default function DetailsBlock({ data }: { data: ResType }) {
   const page = useAppSelector((state) => state.pagination.page);
   const [colorTheme] = useContext(ColorThemeContext);
 
-  window.addEventListener('click', handleClick);
+  useEffect(() => {
+    window.addEventListener('click', handleClick);
+  });
+
   function handleClick(e: Event) {
     if (!detailsBlockRef.current?.contains(e.target as Node) && !(e.target instanceof HTMLAnchorElement)) {
       router.push(`/?page=${page}&search=${searchTerm}`);

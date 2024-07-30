@@ -6,9 +6,12 @@ import { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faXmark, faDownload } from '@fortawesome/free-solid-svg-icons';
 
-function Flyout() {
+interface FlyoutProps {
+  people: ResType[];
+}
+
+function Flyout({ people }: FlyoutProps) {
   const selectedItems = useAppSelector((state) => state.selectedPeople);
-  const people = useAppSelector((state) => state.people);
   const dispatch = useAppDispatch();
   const [colorTheme] = useContext(ColorThemeContext);
 

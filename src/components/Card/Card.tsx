@@ -15,6 +15,8 @@ function Card({ char }: CardProps) {
   const { name, birth_year } = char;
   const dispatch = useAppDispatch();
   const selectedPeople = useAppSelector((state) => state.selectedPeople);
+  const searchTerm = useAppSelector((state) => state.searchTerm);
+  const page = useAppSelector((state) => state.pagination.page);
   const isCharSelected = selectedPeople.find((selectedPerson) => selectedPerson.url === char.url) ? true : false;
   const [colorTheme] = useContext(ColorThemeContext);
   const charId = getCharId(char.url);
@@ -36,7 +38,7 @@ function Card({ char }: CardProps) {
         Select item
         <input checked={isCharSelected} type="checkbox" onChange={handleChange} />
       </label>
-      <Link className="view-details-link" href={`/?details=${charId}`}>
+      <Link className="view-details-link" href={`/?page=${page}&search=${searchTerm}&details=${charId}`}>
         View details
       </Link>
     </ul>

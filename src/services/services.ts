@@ -36,4 +36,10 @@ export const getPeople = async (query: string = '', page: number = 1) => {
   return data;
 };
 
+export const getPeopleById = async (id: string) => {
+  const res = await fetch(`${BASE_URL}/people/${id}`);
+  const data: ResType = await res.json();
+  return data;
+};
+
 export const { useGetPeopleByPageQuery } = apiSlice;
