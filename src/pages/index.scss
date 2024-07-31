@@ -6,7 +6,7 @@
 @import '../components//Loader/Loader.scss';
 @import '../components//Pagination/Pagination.scss';
 @import '../components//DetailsBlock/DetailsBlock.scss';
-@import '../views/ErrorPage/ErrorPage.scss';
+@import './ErrorPage.scss';
 
 $btn-border-color: #ffd54f;
 $btn-bgc-disabled: rgba(66, 66, 66, 0.29);

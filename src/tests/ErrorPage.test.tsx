@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
-import ErrorPage from '../../pages/404.tsx';
+import ErrorPage from '../pages/404.tsx';
 import { Provider } from 'react-redux';
-import { store } from '../../store/store.ts';
+import { store } from '../store/store.ts';
 
 vi.mock('next/navigation', () => ({
   useRouter() {

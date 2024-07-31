@@ -20,14 +20,12 @@ export interface IContext {
 export const getServerSideProps = async (context: IContext) => {
   const query = context.query.search ?? '';
   const page = Number.isNaN(Number(context.query.page)) ? 1 : Number(context.query.page);
-  console.log('query: ', query, 'page: ', page, 'details: ', context.query.details);
 
   const peopleData = await getPeople(query, page);
 
   if (context.query.details) {
     const detailsId = context.query.details;
     const charData = await getPeopleById(detailsId);
-    console.log(charData);
 
     return {
       props: {
