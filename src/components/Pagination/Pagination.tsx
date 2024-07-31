@@ -18,13 +18,13 @@ function Pagination() {
   const prevPage = () => {
     dispatch(changeToPrevPage());
     setInputValue((p) => p - 1);
-    router.push(`/?page=${pageNum - 1}&search=${searchTerm}`);
+    router.push(`/?page=${pageNum - 1}&search=${searchTerm}`, { scroll: false });
   };
 
   const nextPage = () => {
     dispatch(changeToNextPage());
     setInputValue((p) => p + 1);
-    router.push(`/?page=${pageNum + 1}&search=${searchTerm}`);
+    router.push(`/?page=${pageNum + 1}&search=${searchTerm}`, { scroll: false });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +39,7 @@ function Pagination() {
       const value = Number((e.target as HTMLInputElement).value);
       if (!Number.isNaN(value)) {
         dispatch(setCurPage(value));
-        router.push(`/?page=${value}&search=${searchTerm}`);
+        router.push(`/?page=${value}&search=${searchTerm}`, { scroll: false });
       }
     }
   };

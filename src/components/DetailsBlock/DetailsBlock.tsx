@@ -21,7 +21,7 @@ export default function DetailsBlock({ data }: { data: ResType }) {
 
   function handleClick(e: Event) {
     if (!detailsBlockRef.current?.contains(e.target as Node) && !(e.target instanceof HTMLAnchorElement)) {
-      router.push(`/?page=${page}&search=${searchTerm}`);
+      router.push(`/?page=${page}&search=${searchTerm}`, { scroll: false });
     }
   }
 
@@ -30,7 +30,7 @@ export default function DetailsBlock({ data }: { data: ResType }) {
       <Button
         className={`DetailsBlock__close-btn ${colorTheme}`}
         disabled={false}
-        handleClick={() => router.push(`/?page=${page}&search=${searchTerm}`)}
+        handleClick={() => router.push(`/?page=${page}&search=${searchTerm}`, { scroll: false })}
       >
         <FontAwesomeIcon icon={faXmark} style={{ color: `${colorTheme !== 'dark' ? '#000' : '#fff'}` }} />
       </Button>

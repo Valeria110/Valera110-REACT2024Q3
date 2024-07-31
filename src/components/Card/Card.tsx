@@ -38,7 +38,7 @@ function Card({ char }: CardProps) {
         Select item
         <input checked={isCharSelected} type="checkbox" onChange={handleChange} />
       </label>
-      <Link className="view-details-link" href={`/?page=${page}&search=${searchTerm}&details=${charId}`}>
+      <Link className="view-details-link" href={`/?page=${page}&search=${searchTerm}&details=${charId}`} scroll={false}>
         View details
       </Link>
     </ul>

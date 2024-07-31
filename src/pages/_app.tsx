@@ -1,5 +1,5 @@
-import './index.scss';
-import './App.scss';
+import '../styles/global.scss';
+import '../styles/App.scss';
 import { AppProps } from 'next/app';
 import RootLayout from './layout';
 

@@ -21,7 +21,7 @@ function Form() {
     e.preventDefault();
     dispatch(setNewSearchTerm(searchQuery.trim()));
     dispatch(setCurPage(1));
-    router.push(`/?page=${1}&search=${searchQuery.trim()}`);
+    router.push(`/?page=${1}&search=${searchQuery.trim()}`, { scroll: false });
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
