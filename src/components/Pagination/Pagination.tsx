@@ -1,28 +1,32 @@
+'use client';
+
 import { useContext, useState } from 'react';
 import Button from '../Button/Button.tsx';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
-import { changeToNextPage, changeToPrevPage, setCurPage } from '../../features/pagination/paginationSlice.ts';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
-function Pagination() {
-  const pageNum = useAppSelector((state) => state.pagination.page);
-  const searchTerm = useAppSelector((state) => state.searchTerm);
-  const pagesCount = useAppSelector((state) => state.pagination.pagesCount);
+interface PaginationProps {
+  pagesCount: number;
+}
+
+function Pagination({ pagesCount }: PaginationProps) {
+  const searchParams = useSearchParams();
+  const pageNum = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
+  const searchTerm = searchParams.get('search') ?? '';
 
   const [inputValue, setInputValue] = useState(pageNum);
-  const dispatch = useAppDispatch();
+  if (inputValue !== pageNum) {
+    setInputValue(pageNum);
+  }
   const router = useRouter();
   const [colorTheme] = useContext(ColorThemeContext);
 
   const prevPage = () => {
-    dispatch(changeToPrevPage());
     setInputValue((p) => p - 1);
     router.push(`/?page=${pageNum - 1}&search=${searchTerm}`, { scroll: false });
   };
 
   const nextPage = () => {
-    dispatch(changeToNextPage());
     setInputValue((p) => p + 1);
     router.push(`/?page=${pageNum + 1}&search=${searchTerm}`, { scroll: false });
   };
@@ -38,7 +42,6 @@ function Pagination() {
     if (e.key === 'Enter') {
       const value = Number((e.target as HTMLInputElement).value);
       if (!Number.isNaN(value)) {
-        dispatch(setCurPage(value));
         router.push(`/?page=${value}&search=${searchTerm}`, { scroll: false });
       }
     }

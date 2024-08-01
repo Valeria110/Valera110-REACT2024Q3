@@ -1,4 +1,5 @@
-import { ResType } from '../../types/types.ts';
+'use client';
+
 import { useContext, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAppSelector } from '../../hooks/hooks.ts';
@@ -7,12 +8,17 @@ import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 import ListItem from '../../components/ListItem/ListItem.tsx';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { ResType } from '../../types/types.ts';
 
-export default function DetailsBlock({ data }: { data: ResType }) {
+interface DetailsBlockProps {
+  data: ResType;
+  page: number;
+}
+
+export default function DetailsBlock({ data, page }: DetailsBlockProps) {
   const detailsBlockRef = useRef<HTMLUListElement>(null);
   const router = useRouter();
   const searchTerm = useAppSelector((state) => state.searchTerm);
-  const page = useAppSelector((state) => state.pagination.page);
   const [colorTheme] = useContext(ColorThemeContext);
 
   useEffect(() => {
@@ -23,9 +29,11 @@ export default function DetailsBlock({ data }: { data: ResType }) {
     if (!detailsBlockRef.current?.contains(e.target as Node) && !(e.target instanceof HTMLAnchorElement)) {
       router.push(`/?page=${page}&search=${searchTerm}`, { scroll: false });
     }
+
+    return window.removeEventListener('click', handleClick);
   }
 
-  return (
+  return data ? (
     <ul ref={detailsBlockRef} className={`DetailsBlock main__card-list  ${colorTheme}`} data-testid="details-block">
       <Button
         className={`DetailsBlock__close-btn ${colorTheme}`}
@@ -42,5 +50,5 @@ export default function DetailsBlock({ data }: { data: ResType }) {
       <ListItem label="Eye color: " value={data.eye_color} className="main__card-list-item card__eyes" />
       <ListItem label="Gender: " value={data.gender} className="main__card-list-item card__gender" />
     </ul>
-  );
+  ) : null;
 }

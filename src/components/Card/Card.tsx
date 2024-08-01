@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useContext } from 'react';
 import { IProps, ResType } from '../../types/types.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
@@ -6,6 +8,7 @@ import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 import ListItem from '../ListItem/ListItem.tsx';
 import Link from 'next/link';
 import { getCharId } from '../../utils/utils.ts';
+import { useSearchParams } from 'next/navigation';
 
 interface CardProps extends IProps {
   char: ResType;
@@ -14,9 +17,10 @@ interface CardProps extends IProps {
 function Card({ char }: CardProps) {
   const { name, birth_year } = char;
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get('search');
+  const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const selectedPeople = useAppSelector((state) => state.selectedPeople);
-  const searchTerm = useAppSelector((state) => state.searchTerm);
-  const page = useAppSelector((state) => state.pagination.page);
   const isCharSelected = selectedPeople.find((selectedPerson) => selectedPerson.url === char.url) ? true : false;
   const [colorTheme] = useContext(ColorThemeContext);
   const charId = getCharId(char.url);

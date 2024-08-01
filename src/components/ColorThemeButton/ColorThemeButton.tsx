@@ -1,3 +1,5 @@
+'use client';
+
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 import { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

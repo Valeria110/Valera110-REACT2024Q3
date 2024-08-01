@@ -1,3 +1,5 @@
+'use client';
+
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
 import { unselectAllPeople } from '../../features/people/selectedPeopleSlice.ts';
 import { ResType } from '../../types/types.ts';
@@ -7,10 +9,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faXmark, faDownload } from '@fortawesome/free-solid-svg-icons';
 
 interface FlyoutProps {
-  people: ResType[];
+  peopleData: ResType[];
 }
 
-function Flyout({ people }: FlyoutProps) {
+function Flyout({ peopleData }: FlyoutProps) {
   const selectedItems = useAppSelector((state) => state.selectedPeople);
   const dispatch = useAppDispatch();
   const [colorTheme] = useContext(ColorThemeContext);
@@ -26,7 +28,7 @@ function Flyout({ people }: FlyoutProps) {
 
     const selectedPeopleData: ResType[] = [];
     selectedItems.forEach((item) => {
-      people.forEach((person) => {
+      peopleData.forEach((person) => {
         if (person.url === item.url) selectedPeopleData.push(person);
       });
     });
