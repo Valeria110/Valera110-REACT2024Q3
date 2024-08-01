@@ -1,9 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import Card from './Card.tsx';
 import { ResType } from '../../types/types.ts';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store.ts';
+import StoreProvider from '../../app/StoreProvider.tsx';
 
 const mockData: ResType = {
   name: 'Luke Skywalker',
@@ -16,12 +15,21 @@ const mockData: ResType = {
   gender: 'male',
   url: 'https/ddkfjnvkd;alslmvpeople/1',
 };
+
+vi.mock('next/navigation', () => ({
+  useSearchParams() {
+    return {
+      get: (query: string) => (query === 'search' ? 'Luke' : '1'),
+    };
+  },
+}));
+
 describe('Card component', () => {
   it('should render the relevant card data', () => {
     render(
-      <Provider store={store}>
+      <StoreProvider>
         <Card char={mockData} />
-      </Provider>,
+      </StoreProvider>,
     );
     expect(screen.getByText('Luke Skywalker')).toBeInTheDocument();
     expect(screen.getByText('2000')).toBeInTheDocument();

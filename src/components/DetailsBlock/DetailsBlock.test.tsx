@@ -3,8 +3,7 @@ import { describe, expect, it, vi } from 'vitest';
 import DetailsBlock from './DetailsBlock.tsx';
 import { ResType } from '../../types/types.ts';
 import userEvent from '@testing-library/user-event';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store.ts';
+import StoreProvider from '../../app/StoreProvider.tsx';
 
 const mockCharData: ResType = {
   name: 'Luke Skywalker',
@@ -29,9 +28,9 @@ vi.mock('next/navigation', () => ({
 describe('DetailsBlock component', () => {
   it('should display a DetailsBlock with proper data', async () => {
     render(
-      <Provider store={store}>
-        <DetailsBlock data={mockCharData} />
-      </Provider>,
+      <StoreProvider>
+        <DetailsBlock data={mockCharData} page={1} />
+      </StoreProvider>,
     );
 
     expect(screen.getByText(mockCharData.height)).toBeInTheDocument();
@@ -44,9 +43,9 @@ describe('DetailsBlock component', () => {
 
   it('should be removed when clicking on a close button', async () => {
     render(
-      <Provider store={store}>
-        <DetailsBlock data={mockCharData} />
-      </Provider>,
+      <StoreProvider>
+        <DetailsBlock data={mockCharData} page={1} />
+      </StoreProvider>,
     );
 
     waitFor(() => {

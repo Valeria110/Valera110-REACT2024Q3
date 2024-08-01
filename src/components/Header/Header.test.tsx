@@ -1,8 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi } from 'vitest';
 import Header from './Header.tsx';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store.ts';
+import StoreProvider from '../../app/StoreProvider.tsx';
 
 vi.mock('next/navigation', () => ({
   useRouter() {
@@ -21,9 +20,9 @@ vi.mock('next/navigation', () => ({
 describe('Header component', () => {
   it('should render a component with all the necessary elements', () => {
     render(
-      <Provider store={store}>
+      <StoreProvider>
         <Header />
-      </Provider>,
+      </StoreProvider>,
     );
 
     expect(screen.getByAltText('star wars logo')).toBeInTheDocument();

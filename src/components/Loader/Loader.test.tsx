@@ -1,15 +1,14 @@
 import { render, screen } from '@testing-library/react';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store';
 import { expect, describe, it } from 'vitest';
 import Loader from './Loader';
+import StoreProvider from '../../app/StoreProvider';
 
 describe('ColorThemeButton', () => {
   it('should render a button with a sun icon when a dark mode is on', () => {
     render(
-      <Provider store={store}>
+      <StoreProvider>
         <Loader />
-      </Provider>,
+      </StoreProvider>,
     );
 
     expect(screen.getByTestId('loader')).toBeInTheDocument();

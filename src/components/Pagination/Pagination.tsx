@@ -1,6 +1,6 @@
 'use client';
 
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -13,13 +13,13 @@ function Pagination({ pagesCount }: PaginationProps) {
   const searchParams = useSearchParams();
   const pageNum = searchParams.get('page') ? Number(searchParams.get('page')) : 1;
   const searchTerm = searchParams.get('search') ?? '';
-
-  const [inputValue, setInputValue] = useState(pageNum);
-  if (inputValue !== pageNum) {
-    setInputValue(pageNum);
-  }
   const router = useRouter();
   const [colorTheme] = useContext(ColorThemeContext);
+  const [inputValue, setInputValue] = useState(pageNum);
+
+  useEffect(() => {
+    setInputValue(pageNum);
+  }, [pageNum]);
 
   const prevPage = () => {
     setInputValue((p) => p - 1);

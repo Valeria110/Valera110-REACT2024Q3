@@ -2,11 +2,10 @@ import { describe, expect, it, vi } from 'vitest';
 import Form from './Form.tsx';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { Provider } from 'react-redux';
-import { store } from '../../store/store.ts';
 import searchTermSliceReducer, { setNewSearchTerm } from '../../features/searchTerm/searchTermSlice.ts';
 import * as customHooks from '../../hooks/hooks.ts';
 import { ResType } from '../../types/types.ts';
+import StoreProvider from '../../app/StoreProvider.tsx';
 
 const mockPeopleData: ResType[] = [
   {
@@ -42,9 +41,9 @@ describe('Form component', () => {
     mockedAppSelector.mockReturnValue(mockPeopleData);
 
     render(
-      <Provider store={store}>
+      <StoreProvider>
         <Form></Form>
-      </Provider>,
+      </StoreProvider>,
     );
 
     expect(screen.getByRole('searchbox')).toBeInTheDocument();
@@ -55,9 +54,9 @@ describe('Form component', () => {
   it('should save a new search term to the Redux store on submit', async () => {
     const user = userEvent.setup();
     render(
-      <Provider store={store}>
-        <Form />
-      </Provider>,
+      <StoreProvider>
+        <Form></Form>
+      </StoreProvider>,
     );
 
     const state = searchTermSliceReducer('', setNewSearchTerm('Test'));
