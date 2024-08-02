@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
 import { changeToNextPage, changeToPrevPage, setCurPage } from '../../features/pagination/paginationSlice.ts';
@@ -14,6 +14,10 @@ function Pagination() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [colorTheme] = useContext(ColorThemeContext);
+
+  useEffect(() => {
+    setInputValue(pageNum);
+  }, [pageNum]);
 
   const prevPage = () => {
     dispatch(changeToPrevPage());

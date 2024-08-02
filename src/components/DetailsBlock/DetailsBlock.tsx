@@ -23,6 +23,8 @@ export default function DetailsBlock({ data }: { data: ResType }) {
     if (!detailsBlockRef.current?.contains(e.target as Node) && !(e.target instanceof HTMLAnchorElement)) {
       router.push(`/?page=${page}&search=${searchTerm}`, { scroll: false });
     }
+
+    return window.removeEventListener('click', handleClick);
   }
 
   return (
