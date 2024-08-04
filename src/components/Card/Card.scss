@@ -1,7 +1,8 @@
 $dark-mode-bgc: #1a1a1a;
 $dark-mode-bgc-hover: #1a1a1ad6;
 
-.main__card-list {
+.main__card-list,
+.main__card-list-details {
   display: flex;
   flex-direction: column;
   align-items: flex-start;

@@ -4,9 +4,15 @@
   right: 20px;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 10px;
 
   &__selected-items-count {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    height: 30px;
     color: #fff;
     font-size: 1.3rem;
     font-weight: 600;
@@ -24,5 +30,18 @@
   &__btns-wrapper {
     display: flex;
     gap: 10px;
+    height: 50px;
+
+    button {
+      display: flex;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+
+  svg {
+    width: 20px;
   }
 }
