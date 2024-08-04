@@ -7,7 +7,7 @@
     "lib": ["es2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "skipLibCheck": true,
-    "types": ["@testing-library/jest-dom"],
+    "types": ["@testing-library/jest-dom", "@remix-run/node", "vite/client"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
