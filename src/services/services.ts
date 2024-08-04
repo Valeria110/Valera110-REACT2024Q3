@@ -3,7 +3,7 @@ import { ResType } from '../types/types.ts';
 
 const BASE_URL = 'https://swapi.dev/api/';
 
-interface IResponse {
+export interface IResponse {
   count: number;
   next: null | string;
   previous: null | string;
@@ -28,5 +28,17 @@ export const apiSlice = createApi({
     }),
   }),
 });
+
+export const getPeople = async (query: string = '', page: number = 1) => {
+  const res = await fetch(`${BASE_URL}/people/?search=${query}&page=${page}`);
+  const data: IResponse = await res.json();
+  return data;
+};
+
+export const getPeopleById = async (id: string) => {
+  const res = await fetch(`${BASE_URL}/people/${id}`);
+  const data: ResType = await res.json();
+  return data;
+};
 
 export const { useGetPeopleByPageQuery } = apiSlice;

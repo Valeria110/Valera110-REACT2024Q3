@@ -1,50 +1,48 @@
 import './DetailsBlock.scss';
-import { useContext, useEffect, useRef, useState } from 'react';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
+import { useContext, useEffect, useRef } from 'react';
 import Loader from '../Loader/Loader.tsx';
-import { ResType } from '../../types/types.ts';
 import Button from '../Button/Button.tsx';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 import ListItem from '../ListItem/ListItem.tsx';
+import { ResType } from '../../types/types.ts';
+import { useNavigate } from '@remix-run/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-interface CharDataState {
-  people: ResType | null;
+interface DetailsBlockProps {
+  charData: ResType;
+  searchTerm: string;
+  page: number;
 }
 
-function DetailsBlock() {
-  const people = useOutletContext() as ResType[] | null;
-  const [charData, setCharData] = useState<CharDataState['people']>(null);
-  const { charId } = useParams();
+function DetailsBlock({ charData, searchTerm, page }: DetailsBlockProps) {
   const detailsBlockRef = useRef<HTMLUListElement>(null);
-  const navigate = useNavigate();
   const [colorTheme] = useContext(ColorThemeContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setCharData(null);
     window.addEventListener('click', handleClick);
+  });
 
-    setTimeout(() => {
-      if (people?.length) {
-        const charItem = people.filter((char) => char.name === charId);
-        setCharData(charItem[0]);
-      }
-    }, 1500);
-
-    function handleClick(e: Event) {
-      if (!detailsBlockRef.current?.contains(e.target as Node) && !(e.target instanceof HTMLAnchorElement)) {
-        navigate('/');
-      }
+  function handleClick(e: Event) {
+    if (!detailsBlockRef.current?.contains(e.target as Node) && !(e.target instanceof HTMLAnchorElement)) {
+      navigate(`/?page=${page}&searchTerm=${searchTerm}`, { preventScrollReset: true });
     }
-
-    return () => {
-      window.removeEventListener('click', handleClick);
-    };
-  }, [charId, navigate, people]);
+    window.removeEventListener('click', handleClick);
+  }
 
   return charData ? (
-    <ul ref={detailsBlockRef} className={`DetailsBlock main__card-list  ${colorTheme}`} data-testid="details-block">
-      <Button className={`DetailsBlock__close-btn ${colorTheme}`} disabled={false} handleClick={() => navigate('/')}>
-        <i className="fa-solid fa-xmark" style={{ color: `${colorTheme !== 'dark' ? '#000' : '#fff'}` }}></i>
+    <ul
+      ref={detailsBlockRef}
+      className={`DetailsBlock main__card-list-details  ${colorTheme}`}
+      data-testid="details-block"
+    >
+      <Button
+        className={`DetailsBlock__close-btn ${colorTheme}`}
+        disabled={false}
+        handleClick={() => navigate(`/?page=${page}&searchTerm=${searchTerm}`, { preventScrollReset: true })}
+      >
+        <FontAwesomeIcon icon={faXmark} style={{ color: `${colorTheme !== 'dark' ? '#000' : '#fff'}` }} />
       </Button>
       <h1 className="DetailsBlock__header">Details:</h1>
       <ListItem label="Height: " value={charData.height} className="main__card-list-item card__height" />

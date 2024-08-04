@@ -1,29 +1,32 @@
 import './Pagination.scss';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import Button from '../Button/Button.tsx';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/hooks.ts';
-import { changeToNextPage, changeToPrevPage, setCurPage } from '../../features/pagination/paginationSlice.ts';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
 
-function Pagination() {
-  const pageNum = useAppSelector((state) => state.pagination.page);
-  const pagesCount = useAppSelector((state) => state.pagination.pagesCount);
+interface PaginationProps {
+  pageNum: number;
+  pagesCount: number;
+  searchTerm: string;
+}
+
+function Pagination({ pageNum, pagesCount, searchTerm }: PaginationProps) {
   const [inputValue, setInputValue] = useState(pageNum);
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [colorTheme] = useContext(ColorThemeContext);
 
+  useEffect(() => {
+    setInputValue(pageNum);
+  }, [pageNum]);
+
   const prevPage = () => {
-    dispatch(changeToPrevPage());
     setInputValue((p) => p - 1);
-    navigate('/');
+    navigate(`/?page=${pageNum - 1}&search=${searchTerm}`, { preventScrollReset: true });
   };
 
   const nextPage = () => {
-    dispatch(changeToNextPage());
     setInputValue((p) => p + 1);
-    navigate('/');
+    navigate(`/?page=${pageNum + 1}&search=${searchTerm}`, { preventScrollReset: true });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,8 +40,7 @@ function Pagination() {
     if (e.key === 'Enter') {
       const value = Number((e.target as HTMLInputElement).value);
       if (!Number.isNaN(value)) {
-        dispatch(setCurPage(value));
-        navigate('/');
+        navigate(`/?page=${value}&search=${searchTerm}`, { preventScrollReset: true });
       }
     }
   };

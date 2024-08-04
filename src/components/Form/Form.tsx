@@ -1,18 +1,17 @@
 import { ChangeEvent, FormEvent, useContext, useState } from 'react';
 import './Form.scss';
-import { IProps } from '../../types/types.ts';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/hooks.ts';
 import { setCurPage } from '../../features/pagination/paginationSlice.ts';
 import { setNewSearchTerm } from '../../features/searchTerm/searchTermSlice.ts';
 import { ColorThemeContext } from '../../utils/colorThemeContext.tsx';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-interface FormProps extends IProps {
-  prevSearchTerm: string;
-}
-
-function Form({ prevSearchTerm }: FormProps) {
-  const [searchQuery, setSearchQuery] = useState(() => prevSearchTerm ?? '');
+function Form() {
+  const [searchParams] = useSearchParams();
+  const searchTerm = searchParams.get('search') ?? '';
+  const [searchQuery, setSearchQuery] = useState(searchTerm);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [colorTheme] = useContext(ColorThemeContext);
@@ -21,7 +20,7 @@ function Form({ prevSearchTerm }: FormProps) {
     e.preventDefault();
     dispatch(setNewSearchTerm(searchQuery.trim()));
     dispatch(setCurPage(1));
-    navigate('/');
+    navigate(`/?page=1&search=${searchQuery.trim()}`);
   };
 
   const onChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +39,7 @@ function Form({ prevSearchTerm }: FormProps) {
           onChange={onChange}
         />
         <button className={`Header__form-submit-btn ${colorTheme}`} type="submit" aria-label="submit">
-          <i className="fa-solid fa-magnifying-glass"></i>
+          <FontAwesomeIcon icon={faMagnifyingGlass} style={{ width: '20px' }} />
         </button>
       </form>
     </>

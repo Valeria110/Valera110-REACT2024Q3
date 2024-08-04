@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import './Button.scss';
 
 type ButtonTypes = 'submit' | 'reset' | 'button';
 
