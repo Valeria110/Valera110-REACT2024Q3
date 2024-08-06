@@ -14,8 +14,6 @@ function generateCards(people: ResType[]) {
 }
 
 function CardsBlock({ people }: CardsBlockProps) {
-  // const people = useAppSelector((state) => state.people);
-
   return <div className="Main__left-section">{generateCards(people)}</div>;
 }
 
