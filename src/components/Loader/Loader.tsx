@@ -1,5 +1,3 @@
-import './Loader.scss';
-
 function Loader() {
   return (
     <div className="loader-mask" data-testid="loader">

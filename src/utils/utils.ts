@@ -4,4 +4,8 @@ const calcPagesCount = (resultsCounts: number) => {
   return pagesCount ? pagesCount : 1;
 };
 
-export { calcPagesCount };
+const getCharId = (url: string) => {
+  return url.split('/').filter(Boolean).pop();
+};
+
+export { calcPagesCount, getCharId };

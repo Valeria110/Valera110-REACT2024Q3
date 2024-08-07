@@ -1,9 +1,5 @@
 import { ReactNode } from 'react';
 
-interface IErrorBoundaryState {
-  hasError: boolean;
-}
-
 interface IProps {
   children?: ReactNode;
 }
@@ -22,4 +18,4 @@ type ResType = {
   url: string;
 };
 
-export { IErrorBoundaryState, IProps, ResType };
+export type { IProps, ResType };

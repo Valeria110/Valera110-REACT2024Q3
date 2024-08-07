@@ -1,23 +1,32 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import Header from './Header.tsx';
-import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { store } from '../../app/store.ts';
+import { store } from '../../store/store.ts';
+
+vi.mock('next/navigation', () => ({
+  useRouter() {
+    return {
+      prefetch: () => null,
+      push: vi.fn(),
+    };
+  },
+  useSearchParams() {
+    return {
+      get: () => 'Lu',
+    };
+  },
+}));
 
 describe('Header component', () => {
   it('should render a component with all the necessary elements', () => {
-    const prevSearchTerm = 'Luke';
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <Header prevSearchTerm={prevSearchTerm} />
-        </BrowserRouter>
+        <Header />
       </Provider>,
     );
 
     expect(screen.getByAltText('star wars logo')).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Test button' })).toBeInTheDocument();
     expect(screen.getByPlaceholderText('Search by name...')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'submit' })).toBeInTheDocument();
   });

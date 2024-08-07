@@ -1,23 +1,34 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import Pagination from './Pagination.tsx';
-import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
-import { store } from '../../app/store.ts';
+import { store } from '../../store/store.ts';
 import paginationSliceReducer, {
   setCurPage,
   changeToPrevPage,
   changeToNextPage,
 } from '../../features/pagination/paginationSlice.ts';
 
+vi.mock('next/navigation', () => ({
+  useRouter() {
+    return {
+      prefetch: () => null,
+      push: vi.fn(),
+    };
+  },
+  useSearchParams() {
+    return {
+      get: () => 'Lu',
+    };
+  },
+}));
+
 describe('Pagination component', () => {
   it('should render pagination with proper data and change page saving new page num to the Redux store', async () => {
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <Pagination />
-        </BrowserRouter>
+        <Pagination />
       </Provider>,
     );
 
@@ -37,9 +48,7 @@ describe('Pagination component', () => {
 
     render(
       <Provider store={store}>
-        <BrowserRouter>
-          <Pagination />
-        </BrowserRouter>
+        <Pagination />
       </Provider>,
     );
 
