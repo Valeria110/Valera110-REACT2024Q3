@@ -22,7 +22,7 @@ export default function UncontrolledForm() {
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
-      <h2>Personal info</h2>
+      <h2 className={styles.formTitle}>Personal info</h2>
       <Input name="name" id="name" label="Name: " ref={nameRef} />
       <Input name="age" id="age" label="Age: " type="number" ref={ageRef} />
       <Input name="email" id="email" label="Email: " type="email" ref={emailRef} />

@@ -1,8 +1,8 @@
 @use '../../utils/variables.scss' as *;
 
 .btn {
-  width: 180px;
-  padding: 10px 5px;
+  width: auto;
+  padding: 10px 16px;
   color: #7e57c2;
   border: 1px solid $back-btn-color;
   transition: all 0.4s;

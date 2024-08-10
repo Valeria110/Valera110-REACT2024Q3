@@ -5,7 +5,7 @@ import UncontrolledForm from '../UncontrolledForm/UncontrolledForm';
 export default function UncontrolledFormPage() {
   return (
     <>
-      <header>
+      <header className={styles.header}>
         <HomeButton />
       </header>
       <main className={styles.main}>

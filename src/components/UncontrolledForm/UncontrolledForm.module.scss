@@ -4,8 +4,13 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 400px;
+  width: auto;
   align-items: flex-start;
+
+  .formTitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
 
   .inputField,
   .checkboxInputField {
