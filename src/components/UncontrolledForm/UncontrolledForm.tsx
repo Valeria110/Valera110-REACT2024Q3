@@ -1,58 +1,62 @@
+import Input from '../Input/Input';
+import Select from '../Select/Select';
+import styles from './UncontrolledForm.module.scss';
 import { FormEventHandler, useRef } from 'react';
 
 export default function UncontrolledForm() {
   const nameRef = useRef<HTMLInputElement>(null);
+  const ageRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const passwordConfirmRef = useRef<HTMLInputElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const acceptTermsRef = useRef<HTMLInputElement>(null);
+  const genderRef = useRef<HTMLSelectElement>(null);
+  const countryRef = useRef<HTMLSelectElement>(null);
 
   const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget as HTMLFormElement);
-    console.log(formData.get('file'));
+    // const formData = new FormData(e.currentTarget as HTMLFormElement);
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="inputField">
-        <label htmlFor="name">Name: </label>
-        <input ref={nameRef} type="text" name="name" id="name" />
-      </div>
-      <div className="inputField">
-        <label htmlFor="age">Age: </label>
-        <input type="number" name="age" id="age" />
-      </div>
-      <div className="inputField">
-        <label htmlFor="email">Email: </label>
-        <input type="email" name="email" id="email" />
-      </div>
-      <div className="inputField">
-        <label htmlFor="password">Password: </label>
-        <input type="password" name="password" id="password" />
-      </div>
-      <div className="inputField">
-        <label htmlFor="confirm-password">Confirm password: </label>
-        <input type="password" name="confirm-password" id="confirm-password" />
-      </div>
-      <div className="inputField">
-        <label htmlFor="gender">Gender: </label>
-        <select name="gender" id="gender" defaultValue="male">
-          <option value="male">male</option>
-          <option value="female">female</option>
-        </select>
-      </div>
-      <div className="inputField">
-        <label htmlFor="t&c">Accept Terms and Conditions: </label>
-        <input type="checkbox" name="t&c" id="t&c" />
-      </div>
-      <div className="inputField">
-        <label htmlFor="file">Upload a picture (png/jpeg): </label>
-        <input type="file" name="file" id="file" accept="image/png, image/jpeg" />
-      </div>
-      <div className="inputField">
-        <label htmlFor="country">Country: </label>
-        <select name="country" id="country" defaultValue="Belarus">
-          <option value="Belarus">Belarus</option>
-          <option value="Germany">Germany</option>
-        </select>
-      </div>
+    <form className={styles.form} onSubmit={handleSubmit}>
+      <h2>Personal info</h2>
+      <Input name="name" id="name" label="Name: " ref={nameRef} />
+      <Input name="age" id="age" label="Age: " type="number" ref={ageRef} />
+      <Input name="email" id="email" label="Email: " type="email" ref={emailRef} />
+      <Input name="password" id="password" label="Password: " type="password" ref={passwordRef} />
+      <Input
+        name="passwordConfirm"
+        id="passwordConfirm"
+        label="Confirm password: "
+        type="password"
+        ref={passwordConfirmRef}
+      />
+      <Select
+        name="gender"
+        id="gender"
+        defaultValue="male"
+        label="Gender: "
+        options={['male', 'female']}
+        ref={genderRef}
+      />
+      <Input name="file" id="file" label="Upload a picture (png/jpeg): " type="file" ref={fileRef} />
+      <Select
+        name="country"
+        id="country"
+        defaultValue="Belarus"
+        label="Country: "
+        options={['Belarus', 'Germany']}
+        ref={countryRef}
+      />
+      <Input
+        name="acceptTerms"
+        id="acceptTerms"
+        label="Accept Terms and Conditions: "
+        type="checkbox"
+        ref={acceptTermsRef}
+      />
 
       <button type="submit">Submit</button>
     </form>
