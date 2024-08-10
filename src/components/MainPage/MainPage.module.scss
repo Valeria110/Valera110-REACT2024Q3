@@ -1,0 +1,46 @@
+@use '../../utils/variables.scss' as *;
+
+.headerTitle {
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.linksWrapper {
+  display: flex;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+}
+
+.link {
+  font-size: 1.2rem;
+  letter-spacing: 1.2px;
+  padding: 5px;
+  border-bottom: 1px solid #000;
+  color: #4527a0;
+  transition: all 0.4s;
+
+  &:hover {
+    border-color: $link-border-color;
+  }
+}
+
+.formsDataWrapperTitle {
+  margin-right: auto;
+  margin-top: 40px;
+  width: fit-content;
+}
+
+.formsDataWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+
+  .formDataCard {
+    width: 200px;
+    border: 1px solid #000;
+    height: 300px;
+    border-radius: 5px;
+    padding: 10px;
+  }
+}
