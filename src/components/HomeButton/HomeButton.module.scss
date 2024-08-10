@@ -13,4 +13,9 @@
     background-color: $back-btn-color;
     color: #fff;
   }
+
+  &:disabled {
+    pointer-events: none;
+    color: $btn-disabled-color;
+  }
 }
