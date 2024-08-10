@@ -1,6 +1,7 @@
 import Input from '../Input/Input';
 import Select from '../Select/Select';
 import styles from './UncontrolledForm.module.scss';
+import homeBtnStyles from '../HomeButton/HomeButton.module.scss';
 import { FormEventHandler, useRef } from 'react';
 
 export default function UncontrolledForm() {
@@ -58,7 +59,9 @@ export default function UncontrolledForm() {
         ref={acceptTermsRef}
       />
 
-      <button type="submit">Submit</button>
+      <button className={homeBtnStyles.btn} type="submit">
+        Submit
+      </button>
     </form>
   );
 }
