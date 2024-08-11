@@ -31,7 +31,7 @@ export default function UncontrolledForm() {
   const fileRef = useRef<HTMLInputElement>(null);
   const acceptTermsRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLSelectElement>(null);
-  const countryRef = useRef<HTMLSelectElement>(null);
+  const countryRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
   const handleSubmit: FormEventHandler = (e) => {
@@ -102,14 +102,7 @@ export default function UncontrolledForm() {
         ref={genderRef}
       />
       <Input name="file" id="file" label="Upload a picture (png/jpeg): " type="file" ref={fileRef} errors={errors} />
-      <Select
-        name="country"
-        id="country"
-        defaultValue="Belarus"
-        label="Country"
-        options={['Belarus', 'Germany']}
-        ref={countryRef}
-      />
+      <Input name="country" id="country" label="Country" ref={countryRef} errors={errors} />
       <Input
         name="acceptTerms"
         id="acceptTerms"
