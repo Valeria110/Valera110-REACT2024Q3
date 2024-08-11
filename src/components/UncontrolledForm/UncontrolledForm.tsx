@@ -39,7 +39,7 @@ export default function UncontrolledForm() {
       email: form.get('email'),
       password: form.get('password'),
       passwordConfirm: form.get('passwordConfirm'),
-      file: (form.get('file') as File).size ? (form.get('file') as File).type : null,
+      file: form.get('file'),
       gender: form.get('gender'),
       country: form.get('country'),
       acceptTerms: form.get('acceptTerms'),

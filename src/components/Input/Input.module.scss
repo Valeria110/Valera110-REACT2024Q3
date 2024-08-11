@@ -1,7 +1,10 @@
 .error {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
   width: 320px;
   color: red;
   margin: 0;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   text-align: left;
 }
