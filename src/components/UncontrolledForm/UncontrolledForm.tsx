@@ -2,11 +2,15 @@ import Input from '../Input/Input';
 import Select from '../Select/Select';
 import styles from './UncontrolledForm.module.scss';
 import homeBtnStyles from '../HomeButton/HomeButton.module.scss';
-import { FormEventHandler, useRef, useState } from 'react';
+import { FormEventHandler } from 'react';
 import { schema } from '../../validations/formValidation';
 import { ValidationError } from 'yup';
 import { FormFields, IFormData } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { clearErrors, setErrors } from '../../features/validationErrorsSlice';
+import { setFormData, setFormValidation } from '../../features/formSlice';
+import { AppDispatch } from '../../store/store';
 
 const errorsInitialValue = {
   name: '',
@@ -20,18 +24,18 @@ const errorsInitialValue = {
   acceptTerms: '',
 };
 
+function saveFormDataToStore(formData: IFormData, dispatch: AppDispatch) {
+  const reader = new FileReader();
+  reader.readAsDataURL(formData.file as File);
+  reader.onload = () => {
+    const base64Img = reader.result as string;
+    dispatch(setFormData({ ...formData, file: base64Img }));
+  };
+}
+
 export default function UncontrolledForm() {
-  const [errors, setErrors] = useState<Record<FormFields, string>>({ ...errorsInitialValue });
-  const [, setIsFormValid] = useState<boolean>(true);
-  const nameRef = useRef<HTMLInputElement>(null);
-  const ageRef = useRef<HTMLInputElement>(null);
-  const emailRef = useRef<HTMLInputElement>(null);
-  const passwordRef = useRef<HTMLInputElement>(null);
-  const passwordConfirmRef = useRef<HTMLInputElement>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
-  const acceptTermsRef = useRef<HTMLInputElement>(null);
-  const genderRef = useRef<HTMLSelectElement>(null);
-  const countryRef = useRef<HTMLInputElement>(null);
+  const dispatch = useAppDispatch();
+  const isFormValid = useAppSelector((state) => state.form.isValid);
   const navigate = useNavigate();
 
   const handleSubmit: FormEventHandler = (e) => {
@@ -55,8 +59,9 @@ export default function UncontrolledForm() {
   const validateForm = async (formData: IFormData) => {
     try {
       await schema.validate(formData, { abortEarly: false });
-      setIsFormValid(true);
-      setErrors({ ...errorsInitialValue });
+      dispatch(setFormValidation(true));
+      dispatch(clearErrors());
+      saveFormDataToStore(formData, dispatch);
       navigate('/');
     } catch (err) {
       const validationErrors: Record<keyof typeof formData, string> = {
@@ -73,46 +78,25 @@ export default function UncontrolledForm() {
         });
       }
 
-      setErrors(validationErrors);
-      setIsFormValid(false);
+      dispatch(setErrors(validationErrors));
+      dispatch(setFormValidation(false));
     }
   };
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <h2 className={styles.formTitle}>Personal info</h2>
-      <Input name="name" id="name" label="Name" ref={nameRef} errors={errors} />
-      <Input name="age" id="age" label="Age" type="number" ref={ageRef} errors={errors} />
-      <Input name="email" id="email" label="Email" type="email" ref={emailRef} errors={errors} />
-      <Input name="password" id="password" label="Password" type="password" ref={passwordRef} errors={errors} />
-      <Input
-        name="passwordConfirm"
-        id="passwordConfirm"
-        label="Confirm password"
-        type="password"
-        ref={passwordConfirmRef}
-        errors={errors}
-      />
-      <Select
-        name="gender"
-        id="gender"
-        defaultValue="male"
-        label="Gender"
-        options={['male', 'female', 'other']}
-        ref={genderRef}
-      />
-      <Input name="file" id="file" label="Upload a picture (png/jpeg): " type="file" ref={fileRef} errors={errors} />
-      <Input name="country" id="country" label="Country" ref={countryRef} errors={errors} />
-      <Input
-        name="acceptTerms"
-        id="acceptTerms"
-        label="Accept Terms and Conditions: "
-        type="checkbox"
-        ref={acceptTermsRef}
-        errors={errors}
-      />
+      <Input name="name" id="name" label="Name" />
+      <Input name="age" id="age" label="Age" type="number" />
+      <Input name="email" id="email" label="Email" type="email" />
+      <Input name="password" id="password" label="Password" type="password" />
+      <Input name="passwordConfirm" id="passwordConfirm" label="Confirm password" type="password" />
+      <Select name="gender" id="gender" defaultValue="male" label="Gender" options={['male', 'female', 'other']} />
+      <Input name="file" id="file" label="Upload a picture (png/jpeg): " type="file" />
+      <Input name="country" id="country" label="Country" />
+      <Input name="acceptTerms" id="acceptTerms" label="Accept Terms and Conditions: " type="checkbox" />
 
-      <button className={homeBtnStyles.btn} type="submit">
+      <button className={homeBtnStyles.btn} type="submit" disabled={!isFormValid}>
         Submit
       </button>
     </form>

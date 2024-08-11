@@ -1,26 +1,41 @@
-import { forwardRef } from 'react';
 import styles from '../UncontrolledForm/UncontrolledForm.module.scss';
 import inputStyles from './Input.module.scss';
 import { FormFields } from '../../types/types';
-import { countriesList } from '../../utils/countriesList';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
+import { clearErrors } from '../../features/validationErrorsSlice';
+import { setFormValidation } from '../../features/formSlice';
+import { useEffect } from 'react';
 
 interface InputProps {
   type?: string;
   name: FormFields;
   id: string;
   label: string;
-  errors: Record<FormFields, string>;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({ type = 'text', name, id, label, errors }, ref) => {
+export default function Input({ type = 'text', name, id, label }: InputProps) {
+  const countries = useAppSelector((state) => state.countries);
+  const errors = useAppSelector((state) => state.errors);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(setFormValidation(true));
+    dispatch(clearErrors());
+  }, [dispatch]);
+
   const datalist =
     name === 'country' ? (
       <datalist id="countriesList">
-        {countriesList.map((country) => (
+        {countries.map((country) => (
           <option key={country} value={country}></option>
         ))}
       </datalist>
     ) : null;
+
+  const handleChange = () => {
+    dispatch(clearErrors());
+    dispatch(setFormValidation(true));
+  };
 
   return (
     <div className={type === 'checkbox' ? styles.checkboxInputField : styles.inputField}>
@@ -33,12 +48,10 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({ type = 'text', name, i
         type={type}
         name={name}
         id={id}
-        ref={ref}
+        onChange={handleChange}
       />
       {errors[name] ? <p className={inputStyles.error}>{errors[name]}</p> : null}
       {datalist}
     </div>
   );
-});
-
-export default Input;
+}
