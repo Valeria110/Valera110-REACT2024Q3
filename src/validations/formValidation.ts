@@ -1,16 +1,11 @@
 import { mixed, number, object, ref, string } from 'yup';
-
-interface IFile {
-  type: string;
-  path: string;
-  size: number;
-}
+import { IFile } from '../types/types';
 
 const schema = object({
   name: string()
     .required('This field is required')
     .matches(/^[A-ZА-ЯЁ]/, 'Must start with a capital letter'),
-  age: number().required('This field is required').positive('Must be a positive number').integer().max(120).min(1),
+  age: number().required('This field is required').positive('Must be a positive number').integer().lessThan(120),
   email: string().required('This field is required').email('Invalid email'),
   password: string()
     .required('This field is required')

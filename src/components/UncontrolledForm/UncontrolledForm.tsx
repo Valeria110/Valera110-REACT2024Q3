@@ -5,20 +5,23 @@ import homeBtnStyles from '../HomeButton/HomeButton.module.scss';
 import { FormEventHandler, useRef, useState } from 'react';
 import { schema } from '../../validations/formValidation';
 import { ValidationError } from 'yup';
-import { FormFields } from '../../types/types';
+import { FormFields, IFormData } from '../../types/types';
+import { useNavigate } from 'react-router-dom';
+
+const errorsInitialValue = {
+  name: '',
+  age: '',
+  email: '',
+  password: '',
+  passwordConfirm: '',
+  file: '',
+  gender: '',
+  country: '',
+  acceptTerms: '',
+};
 
 export default function UncontrolledForm() {
-  const [errors, setErrors] = useState<Record<FormFields, string>>({
-    name: '',
-    age: '',
-    email: '',
-    password: '',
-    passwordConfirm: '',
-    file: '',
-    gender: '',
-    country: '',
-    acceptTerms: '',
-  });
+  const [errors, setErrors] = useState<Record<FormFields, string>>({ ...errorsInitialValue });
   const [, setIsFormValid] = useState<boolean>(true);
   const nameRef = useRef<HTMLInputElement>(null);
   const ageRef = useRef<HTMLInputElement>(null);
@@ -29,11 +32,12 @@ export default function UncontrolledForm() {
   const acceptTermsRef = useRef<HTMLInputElement>(null);
   const genderRef = useRef<HTMLSelectElement>(null);
   const countryRef = useRef<HTMLSelectElement>(null);
+  const navigate = useNavigate();
 
-  const handleSubmit: FormEventHandler = async (e) => {
+  const handleSubmit: FormEventHandler = (e) => {
     e.preventDefault();
     const form = new FormData(e.currentTarget as HTMLFormElement);
-    const formData = {
+    const formData: IFormData = {
       name: form.get('name'),
       age: form.get('age') ? Number(form.get('age')) : null,
       email: form.get('email'),
@@ -45,20 +49,18 @@ export default function UncontrolledForm() {
       acceptTerms: form.get('acceptTerms'),
     };
 
+    validateForm(formData);
+  };
+
+  const validateForm = async (formData: IFormData) => {
     try {
       await schema.validate(formData, { abortEarly: false });
       setIsFormValid(true);
+      setErrors({ ...errorsInitialValue });
+      navigate('/');
     } catch (err) {
       const validationErrors: Record<keyof typeof formData, string> = {
-        name: '',
-        age: '',
-        email: '',
-        password: '',
-        passwordConfirm: '',
-        file: '',
-        gender: '',
-        country: '',
-        acceptTerms: '',
+        ...errorsInitialValue,
       };
 
       if (err instanceof ValidationError) {

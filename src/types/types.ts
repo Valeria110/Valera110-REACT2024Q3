@@ -11,4 +11,12 @@ type FormFields =
 
 type FormErrors = Record<FormFields, string>;
 
-export type { FormFields, FormErrors };
+interface IFile {
+  type: string;
+  path: string;
+  size: number;
+}
+
+type IFormData = Record<FormFields, FormDataEntryValue | number | null>;
+
+export type { FormFields, FormErrors, IFile, IFormData };
