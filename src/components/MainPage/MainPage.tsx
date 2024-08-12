@@ -2,6 +2,7 @@ import styles from './MainPage.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
+import CardsBLock from '../CardsBlock/CardsBLock';
 
 export default function MainPage() {
   return (
@@ -21,11 +22,7 @@ export default function MainPage() {
       </div>
       <div className="main">
         <h3 className={styles.formsDataWrapperTitle}>Forms data submissions:</h3>
-        <div className={styles.formsDataWrapper}>
-          <div className={styles.formDataCard}>Some Data</div>
-          <div className={styles.formDataCard}>Some Data</div>
-          <div className={styles.formDataCard}>Some Data</div>
-        </div>
+        <CardsBLock />
       </div>{' '}
     </>
   );

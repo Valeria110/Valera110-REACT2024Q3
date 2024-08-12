@@ -3,22 +3,12 @@ import { IFormData } from '../types/types';
 
 interface IInitialState {
   isValid: boolean;
-  formData: IFormData;
+  formData: IFormData[];
 }
 
 const initialState: IInitialState = {
   isValid: true,
-  formData: {
-    name: null,
-    age: null,
-    email: null,
-    password: null,
-    passwordConfirm: null,
-    file: null,
-    gender: null,
-    country: null,
-    acceptTerms: null,
-  },
+  formData: [],
 };
 
 const formSlice = createSlice({
@@ -26,7 +16,7 @@ const formSlice = createSlice({
   initialState,
   reducers: {
     setFormData(state, action: PayloadAction<IFormData>) {
-      state.formData = action.payload;
+      state.formData.push(action.payload);
     },
     resetFormData(state) {
       state.formData = initialState.formData;
