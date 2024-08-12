@@ -19,4 +19,13 @@ interface IFile {
 
 type IFormData = Record<FormFields, FormDataEntryValue | number | null>;
 
+enum PasswordStrengthLevel {
+  NoPassword = '',
+  VeryWeak = 'Very weak!',
+  Weak = 'Weak!',
+  Good = 'Good!',
+  Strong = 'Strong!',
+}
+
 export type { FormFields, FormErrors, IFile, IFormData };
+export { PasswordStrengthLevel };

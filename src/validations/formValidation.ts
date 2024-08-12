@@ -1,5 +1,6 @@
 import { mixed, number, object, ref, string } from 'yup';
 import { IFile } from '../types/types';
+import { oneLowercaseLetter, oneNumber, oneSpecialChar, oneUppercaseLetter } from '../utils/regex';
 
 const schema = object({
   name: string()
@@ -10,10 +11,10 @@ const schema = object({
   password: string()
     .required('This field is required')
     .min(4, 'Too short')
-    .matches(/[!@#$%^&*{}(),.:<>|]/, 'Must contain at least one speacial symbol')
-    .matches(/[0-9]/, 'Must contain at least one number')
-    .matches(/[A-Z]/, 'Must contain at least one uppercase letter')
-    .matches(/[a-z]/, 'Must contain at least one lowercase letter'),
+    .matches(oneSpecialChar, 'Must contain at least one speacial character')
+    .matches(oneNumber, 'Must contain at least one number')
+    .matches(oneUppercaseLetter, 'Must contain at least one uppercased letter')
+    .matches(oneLowercaseLetter, 'Must contain at least one lowercased letter'),
   passwordConfirm: string()
     .required('This field is required')
     .oneOf([ref('password')], 'Password does not match'),

@@ -4,7 +4,8 @@ import { FormFields } from '../../types/types';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { clearErrors } from '../../features/validationErrorsSlice';
 import { setFormValidation } from '../../features/formSlice';
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import PasswordStrength from '../PasswordLength/PasswordStrength';
 
 interface InputProps {
   type?: string;
@@ -17,6 +18,8 @@ export default function Input({ type = 'text', name, id, label }: InputProps) {
   const countries = useAppSelector((state) => state.countries);
   const errors = useAppSelector((state) => state.errors);
   const dispatch = useAppDispatch();
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const [passwordValue, setPasswordValue] = useState(passwordRef.current?.value);
 
   useEffect(() => {
     dispatch(setFormValidation(true));
@@ -35,6 +38,10 @@ export default function Input({ type = 'text', name, id, label }: InputProps) {
   const handleChange = () => {
     dispatch(clearErrors());
     dispatch(setFormValidation(true));
+
+    if (id === 'password') {
+      setPasswordValue(passwordRef.current?.value);
+    }
   };
 
   return (
@@ -49,9 +56,11 @@ export default function Input({ type = 'text', name, id, label }: InputProps) {
         name={name}
         id={id}
         onChange={handleChange}
+        ref={passwordRef}
       />
       {errors[name] ? <p className={inputStyles.error}>{errors[name]}</p> : null}
       {datalist}
+      {id === 'password' ? <PasswordStrength passwordValue={passwordValue ?? ''} /> : null}
     </div>
   );
 }
