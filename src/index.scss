@@ -19,6 +19,13 @@
   box-sizing: border-box;
 }
 
+*::selection {
+  background: $text-selection-color;
+}
+*::-moz-selection {
+  background: $text-selection-color;
+}
+
 a {
   font-weight: 500;
   color: #646cff;

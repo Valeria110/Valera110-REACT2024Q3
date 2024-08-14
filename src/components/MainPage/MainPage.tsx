@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import CardsBLock from '../CardsBlock/CardsBLock';
+import { useAppSelector } from '../../hooks/hooks';
 
 export default function MainPage() {
+  const formData = useAppSelector((state) => state.form.formData);
   return (
     <>
       <div className="header">
@@ -22,7 +24,7 @@ export default function MainPage() {
       </div>
       <div className="main">
         <h3 className={styles.formsDataWrapperTitle}>Forms data submissions:</h3>
-        <CardsBLock />
+        {formData.length ? <CardsBLock /> : <p>No submitted data yet :(</p>}
       </div>{' '}
     </>
   );
