@@ -58,9 +58,9 @@ export default function Input({ type = 'text', name, id, label }: InputProps) {
         onChange={handleChange}
         ref={passwordRef}
       />
-      {errors[name] ? <p className={inputStyles.error}>{errors[name]}</p> : null}
+      {errors[name] && <p className={inputStyles.error}>{errors[name]}</p>}
       {datalist}
-      {id === 'password' ? <PasswordStrength passwordValue={passwordValue ?? ''} /> : null}
+      {id === 'password' && <PasswordStrength passwordValue={passwordValue ?? ''} />}
     </div>
   );
 }
