@@ -17,7 +17,7 @@ interface IFile {
   size: number;
 }
 
-type IFormData = Record<FormFields, FormDataEntryValue | number | null>;
+type IFormData = Record<FormFields, FormDataEntryValue | number | boolean | string | null>;
 
 enum PasswordStrengthLevel {
   NoPassword = '',

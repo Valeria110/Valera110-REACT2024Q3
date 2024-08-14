@@ -4,6 +4,9 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { reactHookFormSchema } from '../../validations/formValidation';
 import ReactHookFormInput from './ReactHookFormInput/ReactHookFormInput';
 import ReactHookFormSelect from './ReactHookFormSelect/ReactHookFormSelect';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/hooks';
+import { saveFormDataToStore } from '../../utils/utils';
 
 export interface ReactHookForm {
   name: string;
@@ -24,9 +27,23 @@ export default function ReactHookForm() {
     formState: { errors, isValid },
     watch,
   } = useForm<ReactHookForm>({ mode: 'onChange', resolver: yupResolver(reactHookFormSchema) });
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<ReactHookForm> = (data) => {
-    console.log(data);
+    const formData = {
+      name: data.name,
+      age: data.age,
+      email: data.email,
+      gender: data.gender,
+      password: data.password,
+      passwordConfirm: data.passwordConfirm,
+      file: data.file[0],
+      country: data.country,
+      acceptTerms: data.acceptTerms,
+    };
+    navigate('/');
+    saveFormDataToStore(formData, dispatch);
   };
 
   return (

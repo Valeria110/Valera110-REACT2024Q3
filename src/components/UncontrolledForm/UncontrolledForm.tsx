@@ -9,8 +9,8 @@ import { FormFields, IFormData } from '../../types/types';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { clearErrors, setErrors } from '../../features/validationErrorsSlice';
-import { setFormData, setFormValidation } from '../../features/formSlice';
-import { AppDispatch } from '../../store/store';
+import { setFormValidation } from '../../features/formSlice';
+import { saveFormDataToStore } from '../../utils/utils';
 
 const errorsInitialValue = {
   name: '',
@@ -23,15 +23,6 @@ const errorsInitialValue = {
   country: '',
   acceptTerms: '',
 };
-
-function saveFormDataToStore(formData: IFormData, dispatch: AppDispatch) {
-  const reader = new FileReader();
-  reader.readAsDataURL(formData.file as File);
-  reader.onload = () => {
-    const base64Img = reader.result as string;
-    dispatch(setFormData({ ...formData, file: base64Img }));
-  };
-}
 
 export default function UncontrolledForm() {
   const dispatch = useAppDispatch();
