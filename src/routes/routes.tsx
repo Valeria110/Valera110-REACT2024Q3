@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import UncontrolledFormPage from '../components/UncontrolledFormPage/UncontrolledFormPage';
+import ControlledFormPage from '../components/ControlledFormPage/ControlledFormPage';
 
 const router = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const router = createBrowserRouter([
   {
     path: '/form',
     element: <UncontrolledFormPage />,
+  },
+  {
+    path: '/react-hook-form',
+    element: <ControlledFormPage />,
   },
 ]);
 

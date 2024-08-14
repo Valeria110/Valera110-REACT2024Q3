@@ -8,7 +8,7 @@ export default function CardsBLock() {
 
   return (
     <div className={styles.formsDataWrapper}>
-      {reversedData.length ? reversedData.map((formData) => <FormDataCard data={formData} />) : null}
+      {reversedData.length ? reversedData.map((formData, i) => <FormDataCard data={formData} key={i} />) : null}
     </div>
   );
 }

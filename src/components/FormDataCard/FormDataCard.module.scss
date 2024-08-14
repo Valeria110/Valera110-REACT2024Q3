@@ -1,6 +1,11 @@
 @use '../../utils//variables.scss' as *;
 
 $latest-card-bgc: #f1f8e9;
+$latest-card-border-color: #9ccc65;
+@mixin latest-card {
+  background-color: $latest-card-bgc;
+  border: 2px solid $latest-card-border-color;
+}
 
 .FormDataCard {
   display: flex;
@@ -12,7 +17,7 @@ $latest-card-bgc: #f1f8e9;
   background-color: #fff;
 
   &:first-child {
-    background-color: $latest-card-bgc;
+    @include latest-card;
   }
 
   * {

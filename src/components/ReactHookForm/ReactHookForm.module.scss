@@ -1,0 +1,132 @@
+@use '../../utils/variables.scss' as *;
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: auto;
+  align-items: flex-start;
+
+  .formTitle {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .label {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+
+  .error {
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    width: 320px;
+    color: red;
+    margin: 0;
+    font-size: 0.7rem;
+    text-align: left;
+  }
+
+  .input {
+    width: 300px;
+    height: 35px;
+    padding: 10px;
+    font-size: 1rem;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    background-color: #fff;
+
+    &:active,
+    &:focus-visible,
+    &:checked {
+      outline: 0;
+    }
+
+    &[type='text'],
+    &[type='password'],
+    &[type='number'],
+    &[type='email'] {
+      border-radius: 5px;
+      border: 1px solid $link-border-color;
+    }
+
+    &[type='file'] {
+      background-color: transparent;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &[type='checkbox'] {
+      height: 20px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px #fff inset;
+      transition: background-color 5000s ease-in-out 0s;
+      font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    }
+
+    &:-moz-autofill {
+      background-color: #fff;
+      font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    }
+  }
+
+  .checkBoxLabel {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 30px;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .select {
+    width: 300px;
+    height: auto;
+    padding: 10px;
+    font-size: 1rem;
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    border-radius: 5px;
+    border: 1px solid $link-border-color;
+
+    &:active,
+    &:focus-visible,
+    &:checked {
+      outline: 0;
+    }
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 1000px #fff inset;
+      transition: background-color 5000s ease-in-out 0s;
+      font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    }
+
+    &:-moz-autofill {
+      background-color: #fff;
+      font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    }
+  }
+
+  .option {
+    font-size: 1rem;
+    height: 30px;
+    width: fit-content;
+  }
+}

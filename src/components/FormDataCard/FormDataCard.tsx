@@ -2,13 +2,12 @@ import { IFormData } from '../../types/types';
 import styles from './FormDataCard.module.scss';
 
 export default function FormDataCard({ data }: { data: IFormData }) {
-  const imgUrl = getImgUrl(data.file as string);
-  const { name, age, gender, email, country, password } = data;
+  const { name, age, gender, email, country, password, file } = data;
 
   return (
     <div className={styles.FormDataCard} key={data.password as string}>
       <div className={styles.imgWrapper}>
-        <img className={styles.img} src={imgUrl} alt="uploaded image" />
+        <img className={styles.img} src={file as string} alt="uploaded image" />
       </div>
       <h4 className={styles.cardTitle}>
         <p>{`${name}`}</p>
@@ -28,10 +27,4 @@ export default function FormDataCard({ data }: { data: IFormData }) {
       </p>
     </div>
   );
-}
-
-function getImgUrl(base64Img: string) {
-  const url = base64Img.split(',')[1];
-  const imgUrl = `data:image/png;base64,${url}`;
-  return imgUrl;
 }
